@@ -1,0 +1,100 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  /* Reusing widget-card styles from DashboardContent.css */
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Styles needed from RegisterPage.css - consider moving these to a global forms.css */
+.modal-content .form-group {
+  margin-bottom: 1rem;
+}
+.modal-content .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333; /* Darker label */
+  font-weight: 600;
+}
+.modal-content .form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.modal-content .error-message {
+  color: #d9534f;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.day-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.day-button {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.day-button.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Reuse cancel and register button styles if possible */
+.modal-actions .cancel-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+}
+ .modal-actions .register-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+}

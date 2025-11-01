@@ -1,0 +1,51 @@
+.sidebar {
+  /* Frosted glass effect */
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+  position: sticky; 
+  top: 0;           
+  align-self: start;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  text-align: center;
+  color: #333;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
+}
+
+.sidebar-link.active {
+  background: #007bff;
+  color: white;
+}

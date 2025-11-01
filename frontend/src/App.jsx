@@ -1,0 +1,83 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage'; 
+import ResetPasswordPage from './pages/ResetPasswordPage';   
+import DashboardPage from './pages/DashboardPage';
+import AttendancePage from './pages/AttendancePage';
+import NoticesPage from './pages/NoticesPage';
+import ClubsPage from './pages/ClubsPage';
+import ProfilePage from './pages/ProfilePage';
+import ClubAnnouncementsPage from './pages/ClubAnnouncementsPage';
+import ClubEventsPage from './pages/ClubEventsPage';
+import ClubFollowersPage from './pages/ClubFollowersPage';
+import ClubSettingsPage from './pages/ClubSettingsPage';
+import { ClubProvider } from './context/ClubContext';
+
+const isAuthenticated = () => localStorage.getItem('token') !== null;
+
+const PrivateRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
+
+// const ClubRoutes = () => {
+//   return (
+//     <ClubProvider>
+//       <Routes>
+//         <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+//         <Route path="/club-announcements" element={<PrivateRoute><ClubAnnouncementsPage /></PrivateRoute>} />
+//         <Route path="/club-events" element={<PrivateRoute><ClubEventsPage /></PrivateRoute>} />
+//         <Route path="/club-followers" element={<PrivateRoute><ClubFollowersPage /></PrivateRoute>} />
+//         <Route path="/club-settings" element={<PrivateRoute><ClubSettingsPage /></PrivateRoute>} />
+//         {/* Add any other club-specific routes here */}
+//       </Routes>
+//     </ClubProvider>
+//   );
+// };
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        
+      <Route
+          path="/*" // Match all routes to apply the provider
+          element={
+            <ClubProvider>
+              <Routes>
+                {/* Routes that USE the ClubProvider */}
+                <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+                <Route path="/club-announcements" element={<PrivateRoute><ClubAnnouncementsPage /></PrivateRoute>} />
+                <Route path="/club-events" element={<PrivateRoute><ClubEventsPage /></PrivateRoute>} />
+                <Route path="/club-followers" element={<PrivateRoute><ClubFollowersPage /></PrivateRoute>} />
+                <Route path="/club-settings" element={<PrivateRoute><ClubSettingsPage /></PrivateRoute>} />
+
+                {/* Routes that DON'T use the ClubProvider */}
+                <Route path="/attendance" element={<PrivateRoute><AttendancePage /></PrivateRoute>} />
+                <Route path="/notices" element={<PrivateRoute><NoticesPage /></PrivateRoute>} />
+                <Route path="/clubs" element={<PrivateRoute><ClubsPage /></PrivateRoute>} />
+                <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+                {/* ... other routes like manage-subjects ... */}
+                
+                {/* Root Redirect */}
+                <Route
+                  path="/"
+                  element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+                />
+              </Routes>
+            </ClubProvider>
+          }
+          />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

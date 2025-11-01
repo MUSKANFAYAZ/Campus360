@@ -1,0 +1,51 @@
+.modal-content,
+.announcement-form-card {
+    color: #333; 
+    max-width: 750px; 
+    position: relative;
+    margin: 2rem auto; 
+    width: 90%;
+}
+
+.announcement-form-card h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #111;
+}
+
+.announcement-form-card .form-group { margin-bottom: 1.5rem; }
+.announcement-form-card .form-group label { display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600; }
+.announcement-form-card .form-group input[type="text"],
+.announcement-form-card .form-group textarea {
+  width: 100%; padding: 0.8rem; border: 1px solid #ccc;
+  border-radius: 4px; box-sizing: border-box; background-color: #fff;
+  font-size: 1rem; color: #333;
+}
+.announcement-form-card .form-group textarea {
+  resize: vertical; min-height: 120px;
+}
+.announcement-form-card .error-message {
+  color: #dc3545; background-color: #f8d7da;
+  padding: 0.75rem; border: 1px solid #f5c6cb; border-radius: 4px;
+  text-align: center; margin: 1.5rem 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+ 
+.cancel-button {
+  padding: 0.75rem 1.5rem; background-color: #f8f9fa; border: 1px solid #ddd;
+  color: #333; font-weight: 600; border-radius: 4px; cursor: pointer;
+}
+.cancel-button:hover { background-color: #e2e6ea; }
+
+.form-actions button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

@@ -1,0 +1,90 @@
+.coloring{
+  color: white;
+}
+
+.clubs-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.club-card {
+  display: flex;
+  flex-direction: column; 
+  position: relative; /* For absolute positioning inside if needed */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.club-logo {
+  width: 60px; /* Adjust size */
+  height: 60px;
+  border-radius: 50%; /* Circular logo */
+  object-fit: cover;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  border: 2px solid rgba(0,0,0,0.1);
+}
+
+.club-info {
+  flex-grow: 1; /* Allow info to take up available space */
+  margin-right: 70px; /* Space for the logo */
+}
+
+.club-info h3 {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.club-category {
+  display: inline-block; /* Allows padding */
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.club-info p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.coordinator {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #6c757d;
+}
+
+.club-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  text-align: right; /* Align button to the right */
+}
+
+/* Re-use action-button style, add specifics */
+.follow-button {
+  background-color: #28a745; /* Green */
+}
+.follow-button:hover {
+  background-color: #218838;
+}
+
+.unfollow-button {
+  background-color: #6c757d; /* Grey */
+}
+.unfollow-button:hover {
+  background-color: #5a6268;
+}
+
+.action-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

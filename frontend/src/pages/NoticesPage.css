@@ -1,0 +1,88 @@
+
+.feed-filters {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Wrap on small screens */
+  gap: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-buttons button {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.filter-buttons button:hover {
+  background: #ddd;
+}
+.filter-buttons button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.filter-toggle label {
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+.filter-toggle input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* New styles for club tags */
+.club-announcement {
+  border-left-color: #17a2b8; /* Teal border for club announcements */
+}
+.club-event {
+  border-left-color: #6f42c1; /* Purple border for club events */
+}
+
+.club-tag {
+  background-color: #343a40 !important; /* Dark background */
+  color: white !important;
+  font-weight: 600;
+}
+
+.club-announcement {
+  border-left-color: #17a2b8 !important; /* Teal */
+}
+
+/* Specific border color for Club Events */
+.club-event {
+  border-left-color: #6f42c1 !important; /* Purple */
+}
+
+/* Style for the "Club Name" tag */
+.club-tag {
+  background-color: #343a40 !important; /* Dark grey/black */
+  color: white !important;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Specific style for event meta text */
+.event-meta {
+  font-weight: 500; /* Make date/location slightly bolder */
+  color: #333;
+}

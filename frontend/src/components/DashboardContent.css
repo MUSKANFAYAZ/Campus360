@@ -1,0 +1,120 @@
+.campus {
+  color: white;
+}
+.dashboard-content h1,
+.dashboard-content p {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.widget-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+}
+
+.widget-card h3 {
+ color: var(--text-color-primary, #111); 
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.widget-card ul.dashboard-list {
+  list-style: none; 
+  padding: 0;
+  margin: 0 0 1rem 0; 
+  flex-grow: 1; 
+}
+
+.widget-card ul.dashboard-list li {
+  padding: 0.5rem 0; 
+  border-bottom: 1px solid rgba(0,0,0,0.08); 
+  color: #222; 
+  font-weight: bold; 
+  font-size: 1.05rem;
+}
+.widget-card ul.dashboard-list li:last-child {
+  border-bottom: none; 
+}
+
+.widget-card a {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.widget-card a:hover {
+  text-decoration: underline;
+}
+
+.widget-card ul {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.widget-card p { 
+  color: var(--text-color-secondary, #555);
+  font-style: italic;
+  flex-grow: 1; 
+  margin-bottom: 1rem;
+}
+
+.action-button {
+  background-color: var(--primary-color, #007bff);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  margin-top: auto; 
+  text-align: center;
+}
+.action-button:hover {
+  background-color: var(--primary-color-dark, #0056b3);
+}
+
+.logout-button {
+  /* Positioning */
+  position: absolute; 
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 10;
+
+  /* Frosted glass style */
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+
+  /* Text and Padding */
+  color: #333;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  /* Shadow and Transition */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}

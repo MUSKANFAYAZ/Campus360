@@ -1,0 +1,118 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 0;
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.register-form {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+}
+
+.register-form h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; 
+  background-color: #fff;
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745; /* Green */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #218838;
+}
+
+.error-message {
+  color: #d9534f;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.login-link p {
+  color: #555;
+  font-size: 0.95rem;
+}
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column; /* <-- 2. CHANGE THIS LINE */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancel-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  
+  /* --- ADD/CHANGE THESE LINES --- */
+  background: none;
+  border: none;
+  color: #007bff; /* This is the blue from your other button */
+  transition: all 0.2s ease;
+}
+
+.cancel-button:hover {
+  /* --- ADD/CHANGE THESE LINES --- */
+  background: none;
+  text-decoration: underline; /* Makes it look like a link on hover */
+}

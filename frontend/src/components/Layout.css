@@ -1,0 +1,18 @@
+.layout-container {
+  display: grid;
+  grid-template-columns: 240px 1fr; 
+  min-height: 100vh;
+
+
+  background-image: url('/background.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: rgba(0, 0, 0, 0.5); 
+  background-blend-mode: overlay;
+}
+
+.main-content {
+  padding: 2rem;
+  overflow-y: auto; 
+}

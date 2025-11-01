@@ -1,0 +1,84 @@
+.follower-management-card {
+    /* Inherits .widget-card styles */
+    color: #333;
+}
+
+.follower-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.follower-header h2 {
+    margin: 0;
+    color: #111;
+}
+
+.follower-search {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.follower-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 60vh; /* Make list scrollable */
+    overflow-y: auto;
+}
+
+.follower-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.follower-item.empty {
+    justify-content: center;
+    font-style: italic;
+    color: #666;
+}
+
+.follower-item:last-child {
+    border-bottom: none;
+}
+
+.follower-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.follower-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #222;
+}
+
+.follower-email {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.remove-follower-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    width: auto; /* Allow button to size itself */
+    margin-top: 0; /* Override auto margin */
+}
+.remove-follower-btn:hover {
+    background-color: #c82333;
+}
+.remove-follower-btn svg {
+    margin-right: 0.4rem;
+}

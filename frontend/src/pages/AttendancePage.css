@@ -1,0 +1,287 @@
+.h1{
+  color: rgb(182, 181, 181);
+}
+
+.attendance-grid {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .attendance-grid {
+    grid-template-columns: 2fr 1fr; 
+  }
+}
+
+.attendance-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.attendance-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Calendar Styling */
+.react-calendar {
+  width: 100%;
+  max-width: 350px; 
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.react-calendar__tile { border-radius: 4px; }
+.react-calendar__tile--active { background: #007bff !important; color: white; }
+.react-calendar__tile--now { background: #e6e6e6; font-weight: bold; }
+
+
+.react-calendar__tile--active-date {
+    background-color: #007bff !important; 
+    color: white !important;
+    border-radius: 4px;
+}
+.react-calendar__tile--active-date:hover {
+    background-color: #0056b3 !important; 
+}
+
+
+/* Highlight days with absence */
+.day-with-absence {
+  background-color: rgba(220, 53, 69, 0.2) !important; 
+  border-radius: 4px;
+}
+
+.react-calendar__tile.day-with-present {
+  background-color: #ccffcc; /* Light green */
+  color: #008000; /* Darker green text */
+  border-radius: 4px;
+}
+
+.react-calendar__tile.day-with-extra {
+  background-color: #e0eaff; /* Light blue */
+  color: #0066cc; /* Blue text */
+  border-radius: 4px;
+  /* You might want to combine colors or add a border if a day has both absence/present and extra */
+}
+
+
+.react-calendar__tile--active,
+.react-calendar__tile--active-date {
+  background-color: #007bff !important; 
+}
+
+
+.react-calendar__tile.day-with-absence.day-with-extra {
+    border: 1px dashed #c00; 
+    box-shadow: 0 0 3px rgba(255, 0, 0, 0.5);
+}
+
+.react-calendar__tile.day-with-present.day-with-extra {
+    border: 1px dashed #008000; 
+    box-shadow: 0 0 3px rgba(0, 128, 0, 0.5);
+}
+
+.react-calendar__tile:enabled:hover .day-with-absence,
+.react-calendar__tile:enabled:focus .day-with-absence {
+  background-color: rgba(220, 53, 69, 0.4) !important;
+}
+/* Highlight days with extra class */
+.day-with-extra {
+    background-color: rgba(23, 162, 184, 0.2) !important;
+    border-radius: 4px;
+}
+.react-calendar__tile:enabled:hover .day-with-extra,
+.react-calendar__tile:enabled:focus .day-with-extra {
+    background-color: rgba(23, 162, 184, 0.4) !important; 
+}
+
+
+/* Subject Management Card */
+.subject-management ul.subject-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  max-height: 200px; 
+  overflow-y: auto;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+.subject-management ul.subject-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333; 
+  font-weight: 500;
+}
+.subject-management ul.subject-list li:last-child {
+  border-bottom: none;
+}
+
+/* Settings Area */
+.attendance-settings {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem; 
+}
+.attendance-settings label { font-weight: 600; color: #333; }
+.attendance-settings .goal-input {
+  width: 60px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+/* Container for side-by-side layout */
+.action-buttons {
+  display: flex;
+  gap: 10px;              /* space between buttons */
+  justify-content: flex-start; /* or center, if you want centered layout */
+  flex-wrap: wrap;        /* allows wrapping on small screens */
+}
+
+/* Reusable button style */
+.action-button {
+  padding: 0.75rem 1.25rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+.subject-actions > button:not(:first-child) {
+    margin-left: 0.5rem; /* Adjust space as needed */
+}
+
+/* Daily Timetable Items */
+.daily-timetable .timetable-item {
+  display: flex;
+  flex-direction: column; /* Stack name and buttons on small screens */
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 0; /* Add more padding */
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+@media (min-width: 600px) { /* On larger screens, put them side by side */
+    .daily-timetable .timetable-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.daily-timetable .timetable-item h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #222; /* Darker heading */
+}
+.daily-timetable .item-actions {
+    display: flex;
+    gap: 0.75rem; /* Space between regular and extra class buttons */
+    align-items: center;
+}
+.daily-timetable .status-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+.daily-timetable .status-buttons button {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #f0f0f0;
+    font-size: 0.9rem;
+    color: #333; /* Default text color */
+    transition: all 0.2s ease;
+}
+.daily-timetable .status-buttons button.active { font-weight: bold; color: white;}
+.daily-timetable .status-buttons button.present.active { background-color: #28a745; border-color: #28a745; } /* Green */
+.daily-timetable .status-buttons button.absent.active { background-color: #dc3545; border-color: #dc3545; } /* Red */
+.daily-timetable .status-buttons button.cancelled.active { background-color: #6c757d; border-color: #6c757d; } /* Grey */
+
+.extra-class-btn {
+    padding: 0.4rem 0.6rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    display: flex; /* For icon + text */
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s ease;
+}
+.extra-class-btn:hover {
+    background-color: #e0e0e0;
+}
+.extra-class-btn.active {
+    background-color: #17a2b8; /* Teal for active extra class */
+    color: white;
+    border-color: #17a2b8;
+}
+.extra-class-btn svg {
+    font-size: 1.1em; /* Adjust icon size */
+}
+
+
+/* Stats Card */
+.stats-card .subject-stats-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.stats-card .subject-stats-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.stats-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #222;
+    font-size: 1.2rem;
+}
+.stats-card .stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+.stats-card .stats-row p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+.stats-card .stats-row strong {
+    font-size: 1.3em;
+}
+.stats-card .stats-details {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Wrap on small screens */
+    font-size: 0.9rem;
+    color: #555;
+}
+.stats-card .low-attendance {
+    color: #dc3545; /* Red for low attendance */
+    font-weight: bold;
+}
