@@ -52,7 +52,7 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 
 - ⚙️ How to Run
 
-  1.Backend:
+  1. Backend:
 
   cd backend
 
@@ -62,7 +62,7 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 
   npm run dev
 
-  2.Frontend:
+  2. Frontend:
 
   Open a new terminal.
 
@@ -72,7 +72,7 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 
   npm run dev
 
-  3.Run Both (with concurrently):
+  3. Run Both (with concurrently):
 
    From the root Campus360 folder:
 
