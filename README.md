@@ -6,6 +6,7 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 * Secure Authentication:
 
 Full login and registration system using secure passwords (JWT + bcrypt).
+<br>
 Google OAuth: Sign in or register with a single click using your Google account.
 Password Reset: A secure "Forgot Password" flow using SendGrid to email a reset link.
 
