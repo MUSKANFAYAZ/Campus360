@@ -38,16 +38,17 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
   - Club Settings: A page to update the club's profile or delete the club.
 
 - 🛠️ Tech Stack
-- Frontend: React (using Vite for a fast development environment)
-  <br>
-- Backend: Node.js & Express (for building the REST API)
-  <br>
-- Database: MongoDB (with Mongoose to manage the data)
-  <br>
-- Authentication: JSON Web Tokens (JWT) & Google OAuth
-  <br>
-- Email Service: SendGrid (for password reset emails)
-  <br>
+
+  - Frontend: React (using Vite for a fast development environment)
+    <br>
+  - Backend: Node.js & Express (for building the REST API)
+    <br>
+  - Database: MongoDB (with Mongoose to manage the data)
+    <br>
+  - Authentication: JSON Web Tokens (JWT) & Google OAuth
+    <br>
+  - Email Service: SendGrid (for password reset emails)
+    <br>
 
 - ⚙️ How to Run
 
@@ -57,6 +58,25 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 
   npm install
 
-Create a .env file (copy .env.example if you have one) and add your MONGO_URI, JWT_SECRET, etc.
+  Create a .env file (copy .env.example if you have one) and add your MONGO_URI, JWT_SECRET, etc.
 
-npm run dev (This will run the server, usually on localhost:5000)
+  npm run dev
+
+  2.Frontend:
+
+  Open a new terminal.
+
+  cd frontend
+
+  npm install
+
+  npm run dev
+
+  3.Run Both (with concurrently):
+
+   From the root Campus360 folder:
+
+   npm install (to install concurrently)
+
+   npm run dev (This will start both servers at the same time)
+  
