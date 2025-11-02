@@ -54,29 +54,29 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
 
   1. Backend:
 
-  cd backend
+      cd backend
 
-  npm install
+      npm install
 
-  Create a .env file (copy .env.example if you have one) and add your MONGO_URI, JWT_SECRET, etc.
+      Create a .env file (copy .env.example if you have one) and add your MONGO_URI, JWT_SECRET, etc.
 
-  npm run dev
+      npm run dev
 
   2. Frontend:
 
-  Open a new terminal.
+      Open a new terminal.
 
-  cd frontend
+      cd frontend
 
-  npm install
+      npm install
 
-  npm run dev
+      npm run dev
 
   3. Run Both (with concurrently):
 
-   From the root Campus360 folder:
+      From the root Campus360 folder:
 
-   npm install (to install concurrently)
+      npm install (to install concurrently)
 
-   npm run dev (This will start both servers at the same time)
+      npm run dev (This will start both servers at the same time)
   
