@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth'); 
 const User = require('../models/User'); 
 const jwt = require('jsonwebtoken'); 
+const Notice = require('../models/Notice');
+const Club = require('../models/Club');
 
 // @route   PUT /api/user/role
 // @desc    Set the user's role after first login
@@ -66,6 +68,42 @@ router.get('/faculty', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// --- GET FACULTY DASHBOARD DATA ---
+// @route   GET /api/user/faculty-dashboard
+// @desc    Get all data needed for the faculty dashboard
+// @access  Private (Faculty only)
+router.get('/faculty-dashboard', auth, async (req, res) => {
+    try {
+        // Ensure the user is a faculty member
+        if (req.user.role !== 'faculty') {
+            return res.status(403).json({ msg: 'Access denied: Faculty only.' });
+        }
+
+        const facultyId = req.user.id;
+
+        // Fetch notices authored by this faculty and clubs coordinated by them, concurrently
+        const [recentNotices, coordinatedClubs] = await Promise.all([
+            // Get the 5 most recent notices they posted
+            Notice.find({ author: facultyId })
+                  .sort({ createdAt: -1 })
+                  .limit(5)
+                  .select('title createdAt'), // Only select needed fields
+
+            // Get all clubs they coordinate
+            Club.find({ facultyCoordinator: facultyId })
+                .sort({ name: 1 })
+                .select('name category') // Only select needed fields
+        ]);
+
+        res.json({ recentNotices, coordinatedClubs });
+
+    } catch (err) {
+        console.error("Error fetching faculty dashboard data:", err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 // @route   PUT /api/user/attendance-goal
 // @desc    Set the user's attendance goal

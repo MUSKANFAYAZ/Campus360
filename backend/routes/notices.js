@@ -82,37 +82,53 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// --- DELETE a Notice/Announcement ---
+// --- DELETE a Notice OR an Announcement ---
 // @route   DELETE /api/notices/:id
-// @desc    Delete a notice or announcement
+// @desc    Delete a notice or an announcement
 // @access  Private (Author or Admin/Faculty)
 router.delete('/:id', auth, async (req, res) => {
   try {
-    // Find the notice/announcement by its ID
-    const announcement = await Announcement.findById(req.params.id); 
-    if (!announcement) {
-      return res.status(404).json({ msg: 'Announcement not found.' });
+    const itemId = req.params.id;
+    const userId = req.user.id;
+
+    // 1. Try to find it as an Announcement
+    let item = await Announcement.findById(itemId);
+    let itemType = 'announcement';
+
+    // 2. If not found, try to find it as an official Notice
+    if (!item) {
+        item = await Notice.findById(itemId);
+        itemType = 'notice';
     }
 
-    //Authorization: Checking if user is the author OR has a privileged role
-    const user = await User.findById(req.user.id).select('role');
-    const isAuthor = announcement.author.toString() === req.user.id;
+    // 3. If still not found, return 404
+    if (!item) {
+      return res.status(404).json({ msg: 'Post not found.' });
+    }
+
+    // 4. Authorization Check
+    const user = await User.findById(userId).select('role');
+    const isAuthor = item.author.toString() === userId;
     const isAdminOrFaculty = user.role === 'faculty' || user.role === 'admin';
 
     if (!isAuthor && !isAdminOrFaculty) {
-      return res.status(403).json({ msg: 'Authorization denied: User not authorized.' });
+      return res.status(403).json({ msg: 'Authorization denied.' });
     }
 
-    //  Delete the announcement
-    await Announcement.findByIdAndDelete(req.params.id);
+    // 5. Delete from the correct collection
+    if (itemType === 'announcement') {
+        await Announcement.findByIdAndDelete(itemId);
+    } else {
+        await Notice.findByIdAndDelete(itemId);
+    }
 
-    res.json({ msg: 'Announcement deleted successfully.' });
+    res.json({ msg: 'Post deleted successfully.' });
 
   } catch (err) {
-    console.error("Error deleting announcement:", err.message);
-     if (err.kind === 'ObjectId') {
-        return res.status(400).json({ msg: 'Invalid ID format.' });
-     }
+    console.error("Error deleting post:", err.message);
+    if (err.kind === 'ObjectId') {
+       return res.status(400).json({ msg: 'Invalid ID format.' });
+    }
     res.status(500).send('Server Error');
   }
 });

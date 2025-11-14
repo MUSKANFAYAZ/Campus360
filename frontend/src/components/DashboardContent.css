@@ -42,10 +42,8 @@
 .widget-card ul.dashboard-list li {
   padding: 0.5rem 0; 
   border-bottom: 1px solid rgba(0,0,0,0.08); 
-  color: #222; 
-  font-weight: bold; 
-  font-size: 1.05rem;
 }
+
 .widget-card ul.dashboard-list li:last-child {
   border-bottom: none; 
 }
@@ -117,4 +115,48 @@
 .logout-button:hover {
   background-color: rgba(255, 255, 255, 0.85);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.feed-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem; /* Space between tag and title */
+  font-size: 1rem; /* Adjust font size */
+  font-weight: 600; /* Make title semi-bold */
+  color: var(--text-color-secondary, #555);
+  font-style: italic;
+}
+
+.feed-tag {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+}
+
+.notice-tag {
+  background-color: #dc3545; /* Red for official notices */
+}
+
+.announcement-tag {
+  background-color: #343a40; /* Dark grey for club announcements */
+}
+
+.event-tag {
+  background-color: #6f42c1; /* Purple for events */
+}
+
+.today-classes-list {
+  /* Inherits .dashboard-list styles */
+  flex-grow: 1; /* Make sure it pushes the link to the bottom */
+}
+
+.today-classes-list li {
+  /* Inherits .dashboard-list li styles */
+  font-weight: 600; /* Make class names bold */
+  font-size: 1rem;
+  color: #333;
 }

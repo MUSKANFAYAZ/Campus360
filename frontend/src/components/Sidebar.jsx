@@ -52,8 +52,22 @@ function Sidebar({ userRole }) {
   );
  
 
-  // --- Add Faculty Links later ---
-  // const facultyLinks = ( ... );
+   const facultyLinks = (
+    <>
+      <NavLink to="/dashboard" className={getNavLinkClass} end>
+        <BsGridFill /> <span>Dashboard</span>
+      </NavLink>
+      <NavLink to="/notices" className={getNavLinkClass}>
+        <BsBellFill /> <span>Campus Notices</span>
+      </NavLink>
+     <NavLink to="/my-clubs" className={getNavLinkClass}>
+        <BsPeopleFill /> <span>My Coordinated Clubs</span>
+      </NavLink>
+      <NavLink to="/profile" className={getNavLinkClass}>
+        <BsPersonFill /> <span>Profile</span>
+      </NavLink>
+    </>
+    );
 
   return (
     <nav className="sidebar">
@@ -63,8 +77,8 @@ function Sidebar({ userRole }) {
       </div>
       <div className="sidebar-links">
         {userRole === 'student' && studentLinks}
-        {userRole === 'club' && clubLinks} {/* <-- RENDER CLUB LINKS */}
-        {/* {userRole === 'faculty' && facultyLinks} */}
+        {userRole === 'club' && clubLinks} 
+        {userRole === 'faculty' && facultyLinks}
       </div>
     </nav>
   );

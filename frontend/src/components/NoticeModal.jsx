@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './NoticeModal.css'; 
+import './NoticeModal.css'; // Make sure this CSS file exists
+import './DashboardContent.css'; // For .widget-card style
 
 // Define categories matching your backend model
 const categories = ['General', 'Academic', 'Event', 'Club Activity', 'Lost & Found', 'Sports', 'Urgent', 'Other'];
@@ -13,7 +14,6 @@ function NoticeModal({ isOpen, onClose, onNoticeCreated }) {
   const [audience, setAudience] = useState('All');
   const [expiresAt, setExpiresAt] = useState(''); // Store as string 'YYYY-MM-DD'
   const [isPinned, setIsPinned] = useState(false);
-  // const [attachments, setAttachments] = useState([]); // State for file uploads (complex)
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,15 +49,17 @@ function NoticeModal({ isOpen, onClose, onNoticeCreated }) {
       audience,
       expiresAt: expiresAt || null, // Send null if empty
       isPinned,
-      // attachments: [], // Send attachment data later
+      attachments: [], // We haven't implemented attachments yet
     };
 
     try {
       if (!token) throw new Error("Authentication error.");
+      // This posts to the general notices route
       const res = await axios.post('/api/notices', noticeData, authHeader);
+      
       onNoticeCreated(res.data); // Pass the newly created notice back
       resetForm();
-      onClose(); 
+      onClose(); // Close modal on success
     } catch (err) {
       setError(err.response?.data?.msg || 'Failed to create notice. Please try again.');
       console.error("Error creating notice:", err.response?.data || err);
@@ -113,8 +115,7 @@ function NoticeModal({ isOpen, onClose, onNoticeCreated }) {
             <input
               type="date" id="noticeExpiresAt" value={expiresAt}
               onChange={(e) => setExpiresAt(e.target.value)}
-              // Optional: Add min attribute to prevent past dates
-              min={new Date().toISOString().split("T")[0]}
+              min={new Date().toISOString().split("T")[0]} // Prevent past dates
             />
           </div>
 
@@ -126,12 +127,6 @@ function NoticeModal({ isOpen, onClose, onNoticeCreated }) {
              />
             <label htmlFor="noticeIsPinned">Pin this notice (Keep at top)</label>
           </div>
-
-          {/* Attachments Placeholder */}
-          {/* <div className="form-group">
-            <label>Attachments (Coming Soon)</label>
-            <input type="file" multiple disabled />
-          </div> */}
 
           {error && <p className="error-message">{error}</p>}
 

@@ -556,4 +556,82 @@ router.delete('/myclub', auth, async (req, res) => {
     }
 });
 
+// --- GET CLUBS COORDINATED BY FACULTY ---
+// @route   GET /api/clubs/my-coordinated-clubs
+// @desc    Get all clubs coordinated by the logged-in faculty
+// @access  Private (Faculty Only)
+router.get('/my-coordinated-clubs', auth, async (req, res) => {
+    try {
+        // 1. Check if user is faculty
+        if (req.user.role !== 'faculty') {
+            return res.status(403).json({ msg: 'Access denied: Faculty only.' });
+        }
+        
+        // 2. Find all clubs where 'facultyCoordinator' matches the user's ID
+        const clubs = await Club.find({ facultyCoordinator: req.user.id })
+            .populate('representative', 'name email') // Get the club rep's name/email
+            .sort({ name: 1 });
+
+        res.json(clubs);
+
+    } catch (err) {
+        console.error("Error fetching coordinated clubs:", err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// --- GET ALL ANNOUNCEMENTS FROM MY COORDINATED CLUBS ---
+// @route   GET /api/clubs/my-coordinated-announcements
+// @desc    Get all announcements from all clubs a faculty coordinates
+// @access  Private (Faculty Only)
+router.get('/my-coordinated-announcements', auth, async (req, res) => {
+    try {
+        if (req.user.role !== 'faculty') {
+            return res.status(403).json({ msg: 'Access denied: Faculty only.' });
+        }
+
+        // 1. Find all clubs coordinated by this faculty
+        const clubs = await Club.find({ facultyCoordinator: req.user.id }).select('_id');
+        const clubIds = clubs.map(c => c._id); // Get just the IDs
+
+        // 2. Find all announcements where the 'club' field is in our list of IDs
+        const announcements = await Announcement.find({ club: { $in: clubIds } })
+            .populate('club', 'name') // Add the club's name
+            .populate('author', 'name')
+            .sort({ createdAt: -1 });
+
+        res.json(announcements);
+    } catch (err) {
+        console.error("Error fetching coordinated announcements:", err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// --- GET ALL EVENTS FROM MY COORDINATED CLUBS ---
+// @route   GET /api/clubs/my-coordinated-events
+// @desc    Get all events from all clubs a faculty coordinates
+// @access  Private (Faculty Only)
+router.get('/my-coordinated-events', auth, async (req, res) => {
+    try {
+        if (req.user.role !== 'faculty') {
+            return res.status(403).json({ msg: 'Access denied: Faculty only.' });
+        }
+
+        // 1. Find all clubs coordinated by this faculty
+        const clubs = await Club.find({ facultyCoordinator: req.user.id }).select('_id');
+        const clubIds = clubs.map(c => c._id);
+
+        // 2. Find all events where the 'club' field is in our list of IDs
+        const events = await Event.find({ club: { $in: clubIds } })
+            .populate('club', 'name')
+            .populate('author', 'name')
+            .sort({ date: 1 }); // Sort by event date
+
+        res.json(events);
+    } catch (err) {
+        console.error("Error fetching coordinated events:", err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

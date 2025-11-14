@@ -1,4 +1,3 @@
-// frontend/src/pages/DashboardPage.jsx
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components/DashboardContent.css";
@@ -9,7 +8,7 @@ import Layout from "../components/Layout";
 import FullScreenBgLayout from "../components/FullScreenBgLayout";
 import RoleSelection from "../components/RoleSelection";
 import StudentDashboard from "../components/StudentDashboard";
-// import FacultyDashboard from '../components/FacultyDashboard';
+import FacultyDashboard from '../components/FacultyDashboard';
 import ClubDashboard from "../components/ClubDashboard";
 import ClubCreationForm from "../components/ClubCreationForm";
 
@@ -111,8 +110,8 @@ function DashboardPage() {
         switch (userRole) {
           case "student":
             return <StudentDashboard userName={userName} />;
-          // case 'faculty':
-          //   return <FacultyDashboard userName={userName} />;
+          case 'faculty':
+            return <FacultyDashboard userName={userName} />;
           case "club":
             return (
               <ClubDashboard
