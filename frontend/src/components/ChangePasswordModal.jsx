@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './DashboardContent.css';
 import './NoticeModal.css'; 
-import PasswordInput from './PasswordInput'; // Import your reusable component
+import PasswordInput from './PasswordInput'; 
 
 function ChangePasswordModal({ isOpen, onClose }) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -31,7 +31,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
     setSuccess('');
     setIsLoading(true);
 
-    // 1. Frontend validation
+   
     if (newPassword !== confirmPassword) {
       setError('New passwords do not match.');
       setIsLoading(false);
@@ -47,16 +47,15 @@ function ChangePasswordModal({ isOpen, onClose }) {
       if (!token) throw new Error("Authentication error.");
       
       const res = await axios.put(
-        '/api/user/change-password', // The new backend route
+        '/api/user/change-password',
         { currentPassword, newPassword },
         authHeader
       );
 
       setSuccess(res.data.msg || 'Password updated successfully!');
-      // Reset form after a short delay
       setTimeout(() => {
         resetForm();
-        onClose(); // Close the modal
+        onClose(); 
       }, 2000);
 
     } catch (err) {

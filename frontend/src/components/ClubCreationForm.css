@@ -6,23 +6,21 @@
 }
 
 .team-member-input input[type="text"] {
-  /* Let the two inputs share the space */
   flex: 1;
-  /* Override form-group margin if needed */
   margin-bottom: 0; 
 }
 
 .remove-member-btn {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545; 
   color: white;
   border: none;
-  border-radius: 50%; /* Make it a circle */
+  border-radius: 50%; 
   width: 30px;
   height: 30px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  line-height: 28px; /* Center the 'x' */
+  line-height: 28px; 
   padding: 0;
   transition: background-color 0.2s ease;
 }
@@ -56,7 +54,7 @@
   margin: 0 auto;
 }
 
-/* --- Style the main form card with the frosted glass effect --- */
+
 .club-creation-form {
   margin-top: 1.5rem;
   background: rgba(255, 255, 255, 0.997);
@@ -67,12 +65,11 @@
   padding: 2rem; 
 }
 
-/* --- Form Group Styling --- */
 .club-creation-form .form-group {
   margin-bottom: 1.5rem;
 }
 
-/* --- Change label color to be visible on the dark background --- */
+
 .club-creation-form .form-group label {
   display: block;
   margin-bottom: 0.5rem;
@@ -81,7 +78,7 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
 }
 
-/* --- Input Field Styling (keeps them solid white for contrast) --- */
+
 .club-creation-form .form-group input[type="text"],
 .club-creation-form .form-group input[type="number"],
 .club-creation-form .form-group select,

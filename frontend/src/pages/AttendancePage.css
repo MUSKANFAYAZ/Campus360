@@ -26,7 +26,6 @@
   gap: 1.5rem;
 }
 
-/* Calendar Styling */
 .react-calendar {
   width: 100%;
   max-width: 350px; 
@@ -51,24 +50,21 @@
     background-color: #0056b3 !important; 
 }
 
-
-/* Highlight days with absence */
 .day-with-absence {
   background-color: rgba(220, 53, 69, 0.2) !important; 
   border-radius: 4px;
 }
 
 .react-calendar__tile.day-with-present {
-  background-color: #ccffcc; /* Light green */
-  color: #008000; /* Darker green text */
+  background-color: #ccffcc; 
+  color: #008000; 
   border-radius: 4px;
 }
 
 .react-calendar__tile.day-with-extra {
-  background-color: #e0eaff; /* Light blue */
-  color: #0066cc; /* Blue text */
+  background-color: #e0eaff; 
+  color: #0066cc; 
   border-radius: 4px;
-  /* You might want to combine colors or add a border if a day has both absence/present and extra */
 }
 
 
@@ -92,7 +88,7 @@
 .react-calendar__tile:enabled:focus .day-with-absence {
   background-color: rgba(220, 53, 69, 0.4) !important;
 }
-/* Highlight days with extra class */
+
 .day-with-extra {
     background-color: rgba(23, 162, 184, 0.2) !important;
     border-radius: 4px;
@@ -103,7 +99,6 @@
 }
 
 
-/* Subject Management Card */
 .subject-management ul.subject-list {
   list-style: none;
   padding: 0;
@@ -125,7 +120,6 @@
   border-bottom: none;
 }
 
-/* Settings Area */
 .attendance-settings {
   padding: 1rem 1.5rem;
   display: flex;
@@ -142,15 +136,15 @@
   background-color: #fff;
 }
 
-/* Container for side-by-side layout */
+
 .action-buttons {
   display: flex;
-  gap: 10px;              /* space between buttons */
-  justify-content: flex-start; /* or center, if you want centered layout */
-  flex-wrap: wrap;        /* allows wrapping on small screens */
+  gap: 10px;              
+  justify-content: flex-start; 
+  flex-wrap: wrap;        
 }
 
-/* Reusable button style */
+
 .action-button {
   padding: 0.75rem 1.25rem;
   background-color: #007bff;
@@ -168,21 +162,20 @@
 }
 
 .subject-actions > button:not(:first-child) {
-    margin-left: 0.5rem; /* Adjust space as needed */
+    margin-left: 0.5rem; 
 }
 
-/* Daily Timetable Items */
 .daily-timetable .timetable-item {
   display: flex;
-  flex-direction: column; /* Stack name and buttons on small screens */
+  flex-direction: column; 
   align-items: flex-start;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  padding: 0.75rem 0; /* Add more padding */
+  padding: 0.75rem 0; 
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-@media (min-width: 600px) { /* On larger screens, put them side by side */
+@media (min-width: 600px) { 
     .daily-timetable .timetable-item {
         flex-direction: row;
         justify-content: space-between;
@@ -193,11 +186,11 @@
 .daily-timetable .timetable-item h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #222; /* Darker heading */
+    color: #222; 
 }
 .daily-timetable .item-actions {
     display: flex;
-    gap: 0.75rem; /* Space between regular and extra class buttons */
+    gap: 0.75rem; 
     align-items: center;
 }
 .daily-timetable .status-buttons {
@@ -211,7 +204,7 @@
     cursor: pointer;
     background: #f0f0f0;
     font-size: 0.9rem;
-    color: #333; /* Default text color */
+    color: #333; 
     transition: all 0.2s ease;
 }
 .daily-timetable .status-buttons button.active { font-weight: bold; color: white;}
@@ -227,7 +220,7 @@
     cursor: pointer;
     font-size: 0.9rem;
     color: #333;
-    display: flex; /* For icon + text */
+    display: flex;
     align-items: center;
     gap: 0.3rem;
     transition: all 0.2s ease;
@@ -236,16 +229,15 @@
     background-color: #e0e0e0;
 }
 .extra-class-btn.active {
-    background-color: #17a2b8; /* Teal for active extra class */
+    background-color: #17a2b8;
     color: white;
     border-color: #17a2b8;
 }
 .extra-class-btn svg {
-    font-size: 1.1em; /* Adjust icon size */
+    font-size: 1.1em; 
 }
 
 
-/* Stats Card */
 .stats-card .subject-stats-item {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
@@ -277,11 +269,11 @@
 .stats-card .stats-details {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap; /* Wrap on small screens */
+    flex-wrap: wrap; 
     font-size: 0.9rem;
     color: #555;
 }
 .stats-card .low-attendance {
-    color: #dc3545; /* Red for low attendance */
+    color: #dc3545; 
     font-weight: bold;
 }

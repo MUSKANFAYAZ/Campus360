@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './DashboardContent.css'; 
-import './AnnouncementForm.css';
+import './DashboardContent.css'; // Import global styles for widget-card
+import './AnnouncementForm.css'; // Import specific form styles if you have them
 
 function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
   const [title, setTitle] = useState('');
@@ -24,13 +24,12 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
     }
 
     if (!clubId) {
-        setError('Club ID is missing. Cannot post announcement.');
-        setIsLoading(false);
-        console.error("Club ID prop is missing in AnnouncementForm");
-        return;
+      setError('Club ID is missing. Cannot post announcement.');
+      setIsLoading(false);
+      console.error("Club ID prop is missing in AnnouncementForm");
+      return;
     }
 
-    // Prepare data for the backend (using Notice model structure)
     const announcementData = {
       title,
       content,
@@ -40,14 +39,20 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
 
     try {
       if (!token) throw new Error("Authentication error.");
+      
+      // Use the correct club-specific route
       const res = await axios.post(`/api/clubs/${clubId}/announcements`, announcementData, authHeader);
 
-      // Call the callback function passed from the parent
+      // Call the callback function passed from the parent to refresh data
       if (onAnnouncementCreated) {
-          onAnnouncementCreated(res.data);
+        onAnnouncementCreated(res.data);
       }
+      
+      // Reset form
       setTitle('');
       setContent('');
+      
+      // Close the modal
       if (onClose) onClose();
 
     } catch (err) {
@@ -59,11 +64,13 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
   };
 
   return (
-    // Use widget-card for consistent styling, or a custom class
+    // We use 'widget-card' to get the white frosted glass background
+    // We add 'announcement-form-card' for specific sizing (defined in CSS)
     <div className="widget-card announcement-form-card">
-      <h2>New Announcement</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>New Announcement</h2>
+      
       <form onSubmit={handleSubmit}>
-        {/* Title */}
+        {/* Title Input */}
         <div className="form-group">
           <label htmlFor="announcementTitle">Title</label>
           <input
@@ -72,10 +79,11 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            placeholder="Enter a catchy title"
           />
         </div>
 
-        {/* Content */}
+        {/* Content Textarea */}
         <div className="form-group">
           <label htmlFor="announcementContent">Content</label>
           <textarea
@@ -83,21 +91,33 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            rows={6} // Adjust rows as needed
+            rows={6}
+            placeholder="Write your announcement details here..."
           />
         </div>
 
+        {/* Error Message */}
         {error && <p className="error-message">{error}</p>}
 
-        {/* Actions */}
-        <div className="form-actions">
-          {/* Optional Cancel button if used in a modal */}
+        {/* Action Buttons */}
+        <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
           {onClose && (
-            <button type="button" className="cancel-button" onClick={onClose} disabled={isLoading}>
+            <button 
+              type="button" 
+              className="action-button" 
+              onClick={onClose} 
+              disabled={isLoading}
+              style={{ backgroundColor: '#6c757d', width: 'auto' }} // Grey cancel button
+            >
               Cancel
             </button>
           )}
-          <button type="submit" className="action-button post-button" disabled={isLoading}>
+          <button 
+            type="submit" 
+            className="action-button post-button" 
+            disabled={isLoading}
+            style={{ width: 'auto' }}
+          >
             {isLoading ? 'Posting...' : 'Post Announcement'}
           </button>
         </div>

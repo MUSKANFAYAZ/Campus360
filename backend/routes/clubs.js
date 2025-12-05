@@ -206,6 +206,13 @@ router.post('/:clubId/announcements', auth, async (req, res) => {
 
         await newAnnouncement.save();
 
+         const io = req.app.get('io');//getting io instance
+        io.to(clubId).emit("receive_notification", {
+            title: `New Announcement: ${title}`,
+            message: `${club.name} posted a new Announcement!`,
+            type: 'announcement'
+        });
+
         const populatedAnnouncement = await Announcement.findById(newAnnouncement._id).populate('author', 'name');
 
         res.status(201).json(populatedAnnouncement);
@@ -309,6 +316,14 @@ router.post('/:clubId/events', auth, async (req, res) => {
 
        
         await newEvent.save();
+        //real time notification
+        const io = req.app.get('io');//getting io instance
+        io.to(clubId).emit("receive_notification", {
+            title: `New Event: ${title}`,
+            message: `${club.name} posted a new event!`,
+            type: 'event'
+        });
+
         const populatedEvent = await Event.findById(newEvent._id).populate('author', 'name');
 
         res.status(201).json(populatedEvent); 
@@ -377,10 +392,10 @@ router.get('/myclub', auth, async (req, res) => {
              return res.status(403).json({ msg: 'Access denied. Not a club representative.' });
         }
 
-        //Find the club managed by the user
+        //Finding the club managed by the user
         const club = await Club.findOne({ representative: req.user.id })
                              .populate('facultyCoordinator', 'name')
-                             .lean(); //  for a plain JS object
+                             .lean(); 
 
         if (!club) {
             return res.json(null); 
@@ -463,10 +478,9 @@ router.put('/myclub/remove-follower', auth, async (req, res) => {
             return res.status(404).json({ msg: 'Follower not found.' });
         }
 
-        // 3. Remove the club's ID from that user's 'followedClubs' array
         await User.findByIdAndUpdate(
             userIdToRemove,
-            { $pull: { followedClubs: club._id } } // $pull removes the item
+            { $pull: { followedClubs: club._id } } 
         );
 
         res.json({ msg: `Successfully removed ${userToRemove.name} from followers.` });
@@ -562,14 +576,13 @@ router.delete('/myclub', auth, async (req, res) => {
 // @access  Private (Faculty Only)
 router.get('/my-coordinated-clubs', auth, async (req, res) => {
     try {
-        // 1. Check if user is faculty
         if (req.user.role !== 'faculty') {
             return res.status(403).json({ msg: 'Access denied: Faculty only.' });
         }
         
-        // 2. Find all clubs where 'facultyCoordinator' matches the user's ID
+        //Find all clubs where 'facultyCoordinator' matches the user's ID
         const clubs = await Club.find({ facultyCoordinator: req.user.id })
-            .populate('representative', 'name email') // Get the club rep's name/email
+            .populate('representative', 'name email') 
             .sort({ name: 1 });
 
         res.json(clubs);
@@ -590,13 +603,12 @@ router.get('/my-coordinated-announcements', auth, async (req, res) => {
             return res.status(403).json({ msg: 'Access denied: Faculty only.' });
         }
 
-        // 1. Find all clubs coordinated by this faculty
         const clubs = await Club.find({ facultyCoordinator: req.user.id }).select('_id');
-        const clubIds = clubs.map(c => c._id); // Get just the IDs
+        const clubIds = clubs.map(c => c._id); 
 
-        // 2. Find all announcements where the 'club' field is in our list of IDs
+        //Find all announcements where the 'club' field is in our list of IDs
         const announcements = await Announcement.find({ club: { $in: clubIds } })
-            .populate('club', 'name') // Add the club's name
+            .populate('club', 'name') 
             .populate('author', 'name')
             .sort({ createdAt: -1 });
 
@@ -617,15 +629,13 @@ router.get('/my-coordinated-events', auth, async (req, res) => {
             return res.status(403).json({ msg: 'Access denied: Faculty only.' });
         }
 
-        // 1. Find all clubs coordinated by this faculty
         const clubs = await Club.find({ facultyCoordinator: req.user.id }).select('_id');
         const clubIds = clubs.map(c => c._id);
 
-        // 2. Find all events where the 'club' field is in our list of IDs
         const events = await Event.find({ club: { $in: clubIds } })
             .populate('club', 'name')
             .populate('author', 'name')
-            .sort({ date: 1 }); // Sort by event date
+            .sort({ date: 1 }); 
 
         res.json(events);
     } catch (err) {

@@ -18,19 +18,16 @@ function AnnouncementItem({ announcement }) {
     <div className="widget-card notice-item club-announcement">
       <h3 className="notice-title">{title}</h3>
       <p className="notice-meta">
-        {/* Use the 'club-tag' style for the club name */}
         <span className="notice-category club-tag">
           <BsMegaphoneFill /> {club?.name || 'Club Announcement'}
         </span>
         | Posted by {author?.name || 'N/A'} on {formatDate(createdAt)}
       </p>
       <div className="notice-content">
-        {/* Map content to preserve line breaks */}
         {content.split('\n').map((line, index) => (
           <React.Fragment key={index}>{line}<br /></React.Fragment>
         ))}
       </div>
-      {/* Delete/Edit buttons are not needed for the general student feed */}
     </div>
   );
 }

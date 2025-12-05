@@ -14,7 +14,11 @@ import ClubEventsPage from './pages/ClubEventsPage';
 import ClubFollowersPage from './pages/ClubFollowersPage';
 import ClubSettingsPage from './pages/ClubSettingsPage';
 import { ClubProvider } from './context/ClubContext';
+import { SocketProvider } from './context/SocketContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import MyClubsPage from './pages/MyClubsPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 const isAuthenticated = () => localStorage.getItem('token') !== null;
 
@@ -25,34 +29,32 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <Router>
+      <SocketProvider>
+        <ToastContainer />
       <Routes>
-        {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         
       <Route
-          path="/*" // Match all routes to apply the provider
+          path="/*" 
           element={
             <ClubProvider>
               <Routes>
-                {/* Routes that USE the ClubProvider */}
                 <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
                 <Route path="/club-announcements" element={<PrivateRoute><ClubAnnouncementsPage /></PrivateRoute>} />
                 <Route path="/club-events" element={<PrivateRoute><ClubEventsPage /></PrivateRoute>} />
                 <Route path="/club-followers" element={<PrivateRoute><ClubFollowersPage /></PrivateRoute>} />
                 <Route path="/club-settings" element={<PrivateRoute><ClubSettingsPage /></PrivateRoute>} />
 
-                {/* Routes that DON'T use the ClubProvider */}
                 <Route path="/attendance" element={<PrivateRoute><AttendancePage /></PrivateRoute>} />
                 <Route path="/notices" element={<PrivateRoute><NoticesPage /></PrivateRoute>} />
                 <Route path="/clubs" element={<PrivateRoute><ClubsPage /></PrivateRoute>} />
                 <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
                 <Route path="/my-clubs" element={<PrivateRoute><MyClubsPage /></PrivateRoute>} />
-                {/* ... other routes like manage-subjects ... */}
-                
-                {/* Root Redirect */}
+                <Route path="/verify-email" element={<VerifyEmailPage />} />
+               
                 <Route
                   path="/"
                   element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
@@ -62,6 +64,7 @@ function App() {
           }
           />
       </Routes>
+      </SocketProvider>
     </Router>
   );
 }

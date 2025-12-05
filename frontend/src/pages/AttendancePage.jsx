@@ -22,15 +22,15 @@ function AttendancePage() {
   const [subjectsToDelete, setSubjectsToDelete] = useState([]);
 
   const userRole = localStorage.getItem('userRole');
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate(); 
   const token = localStorage.getItem('token');
   const authHeader = { headers: { 'x-auth-token': token } };
 
-  // --- Data Fetching ---
+
   const fetchData = useCallback(async () => {
     if (!token) {
       console.error("No token found, cannot fetch data.");
-      navigate('/login'); // Redirect to login if no token
+      navigate('/login'); 
       return;
     }
     try {
@@ -69,13 +69,13 @@ function AttendancePage() {
         navigate('/login');
       }
     }
-  }, [token, selectedDate, navigate]); // Added navigate to dependency array
+  }, [token, selectedDate, navigate]); 
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  // --- Get Status for UI ---
+
   const getAttendanceStatusForSubject = (subjectId, date) => {
     const dateStr = date.toISOString().split('T')[0];
     const record = attendanceRecords.find(
@@ -101,7 +101,6 @@ function AttendancePage() {
     );
   };
 
-  // --- Event Handlers ---
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -167,7 +166,7 @@ function AttendancePage() {
     } catch (err) {}
   };
 
-  // --- Helper Functions for Calculations ---
+ 
   const calculateSubjectStats = useCallback((subjectId) => {
     const goal = parseInt(savedAttendanceGoal, 10) || 0;
     const subject = subjects.find(s => s._id === subjectId);
@@ -187,39 +186,33 @@ function AttendancePage() {
         }
       });
 
-    const effectivePresent = present + extraPresent; // Total classes you showed up for
-    const totalCountedClasses = present + absent; // Total scheduled classes that happened
+    const effectivePresent = present + extraPresent; // Total classes I attended
+    const totalCountedClasses = present + absent; // Total scheduled classes 
 
-    // --- FIX 1: Percentage Calculation ---
-    // Calculate the percentage based on scheduled classes, but cap it at 100%
+    
     let percentage = totalCountedClasses === 0 ? 100 : (effectivePresent / totalCountedClasses) * 100;
-    let displayPercentage = Math.min(percentage, 100); // Cap displayed percentage at 100
-    // --- END FIX 1 ---
+    let displayPercentage = Math.min(percentage, 100); 
 
     let maxBunksAvailable = 0;
 
-    // Check if current attendance is already below the goal
     if (percentage < goal) {
         maxBunksAvailable = 0; // If you're already below, you have 0 bunks
     } else {
-        // --- FIX 2: Bunks Left Calculation ---
-        // This formula calculates how many classes you can afford to miss
-        // based on the "credit" you've built up.
         // (100 * (Attended+Extra) / Goal) = Total classes you can have
         // Subtract (Attended+Absent) to find how many more you can miss
         maxBunksAvailable = Math.floor((100 * effectivePresent / goal) - totalCountedClasses);
-        if (maxBunksAvailable < 0) maxBunksAvailable = 0; // Ensure it's not negative
-        // --- END FIX 2 ---
+        if (maxBunksAvailable < 0) maxBunksAvailable = 0;
     }
     
   
     return {
       present, absent, cancelled, extraPresent,
-      percentage: displayPercentage.toFixed(1), // Show the capped percentage
+      percentage: displayPercentage.toFixed(1), 
       maxBunksAvailable: Math.floor(maxBunksAvailable),
     };
   }, [attendanceRecords, subjects, savedAttendanceGoal]);
-  // --- Calendar Styling ---
+ 
+
   const tileClassName = ({ date, view }) => {
     if (view === 'month') {
       const dateStr = date.toISOString().split('T')[0];
@@ -237,14 +230,13 @@ function AttendancePage() {
 
   const isGoalUnchanged = attendanceGoal === savedAttendanceGoal;
 
-  // --- Helper for Day Names ---
+
   const dayAbbreviations = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
     <Layout userRole={userRole}>
       <h1>My Attendance</h1>
 
-      {/* Settings Area */}
       <div className="widget-card attendance-settings">
         <label htmlFor="goal">Target Attendance: </label>
         <input type="number" id="goal" value={attendanceGoal ?? ''} onChange={(e) => setAttendanceGoal(e.target.value || '')} min="0" max="100" className="goal-input" /> %
@@ -252,9 +244,8 @@ function AttendancePage() {
       </div>
 
       <div className="attendance-grid">
-        {/* Left Column */}
+      
         <div className="attendance-main">
-          {/* Daily Timetable */}
           <div className="widget-card daily-timetable">
             <h2>Timetable for {selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h2>
             {!subjects || subjects.length === 0 ? (
@@ -263,10 +254,9 @@ function AttendancePage() {
               subjects.map(subject => {
                 const currentStatus = getAttendanceStatusForSubject(subject._id, selectedDate);
                 const isExtraMarked = extraClassToggleState[subject._id] || false;
-                // Only render if the subject is scheduled for the selected day
                 const dayIndex = selectedDate.getDay();
                 if (!subject.days || !subject.days.includes(dayIndex)) {
-                    return null; // Skip rendering if not scheduled
+                    return null; 
                 }
                 return (
                   <div key={subject._id} className="timetable-item">
@@ -285,13 +275,13 @@ function AttendancePage() {
                 );
               })
             )}
-             {/* Show message if subjects exist but none are scheduled */}
+           
              {subjects.length > 0 && subjects.filter(s => s.days?.includes(selectedDate.getDay())).length === 0 && (
                 <p>No classes scheduled for this day.</p>
              )}
           </div>
 
-          {/* Statistics */}
+        
           <div className="widget-card stats-card">
             <h2>Statistics</h2>
             {!subjects || subjects.length === 0 ? ( <p>Add subjects to see statistics.</p> ) : (
@@ -315,7 +305,7 @@ function AttendancePage() {
           </div>
         </div>
 
-        {/* Right Column */}
+       
         <div className="attendance-sidebar">
           <Calendar onChange={handleDateChange} value={selectedDate} tileClassName={tileClassName} />
           <div className="widget-card subject-management">
@@ -352,7 +342,7 @@ function AttendancePage() {
         </div>
       </div>
 
-      {/* Subject Modal */}
+     
       <SubjectModal isOpen={isSubjectModalOpen} onClose={() => setIsSubjectModalOpen(false)} onSubjectAdded={handleSubjectAdded} />
     </Layout>
   );

@@ -25,8 +25,20 @@ const userSchema = new Schema({
   followedClubs: [{
     type: Schema.Types.ObjectId, 
     ref: 'Club'                
-  }]
+  }],
 
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationToken: {
+    type: String,
+    select: false 
+  },
+  verificationTokenExpires: {
+    type: Date,
+    select: false
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);

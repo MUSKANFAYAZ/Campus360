@@ -160,3 +160,13 @@
   font-size: 1rem;
   color: #333;
 }
+
+.followed-clubs-list {
+  flex-grow: 1; 
+}
+
+.followed-clubs-list li {
+  font-weight: 600; 
+  font-size: 1rem;
+  color: #333; 
+}

@@ -33,8 +33,9 @@ function ClubsPage() {
       // --- END FIX ---
 
       setClubs(clubsRes.data || []);
-      // Now userRes is defined, and we can set the followed clubs
-      setFollowedClubs(new Set(userRes.data?.followedClubs || []));
+      const followedClubObjects = userRes.data?.followedClubs || [];
+      const followedClubIds = followedClubObjects.map(club => club._id);
+      setFollowedClubs(new Set(followedClubIds));
 
     } catch (err) {
       setError('Failed to load club data.');

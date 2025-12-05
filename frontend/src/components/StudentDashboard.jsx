@@ -1,13 +1,11 @@
-// frontend/src/components/StudentDashboard.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; 
 import './DashboardContent.css';
-import './DashboardContent.css'; // Make sure this file exists
 
 function StudentDashboard({ userName }) {
   const [subjects, setSubjects] = useState([]);
-  const [followedClubsCount, setFollowedClubsCount] = useState(0); 
+  const [followedClubs, setFollowedClubs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [recentFeedItems, setRecentFeedItems] = useState([]);
@@ -28,13 +26,16 @@ function StudentDashboard({ userName }) {
       // Fetch subjects, user profile, and feed at the same time
       const [subjectsRes, userRes, feedRes] = await Promise.all([
         axios.get('/api/attendance/subjects', authHeader),
-        axios.get('/api/auth/me', authHeader) ,// Fetches user data
+        axios.get('/api/auth/me', authHeader) ,// This fetches user data (including followed clubs)
         axios.get('/api/feed', authHeader)
       ]);
 
       setSubjects(subjectsRes.data || []);
       setRecentFeedItems((feedRes.data?.feed || []).slice(0, 3));
-      setFollowedClubsCount(userRes.data?.followedClubs?.length || 0);
+      
+      // --- THIS IS THE FIX FOR CLUB NAMES ---
+      // It saves the populated list of clubs (with names) to state
+      setFollowedClubs(userRes.data?.followedClubs || []); 
 
     } catch (err) {
       console.error("Failed to fetch dashboard data:", err);
@@ -49,16 +50,13 @@ function StudentDashboard({ userName }) {
     fetchData();
   }, [fetchData]);
 
-  // This function is correct
-  const getTodaysClassCount = () => {
-    if (subjects.length === 0) {
-      return []; // Return an empty array
-    }
+  // This function returns the array of today's classes
+  const getTodaysClasses = () => {
+    if (subjects.length === 0) return [];
     const todayIndex = new Date().getDay();
-    const todaysClasses = subjects.filter(subject =>
+    return subjects.filter(subject =>
       subject.days && subject.days.includes(todayIndex)
     );
-    return todaysClasses; // Return the full array
   };
 
   const renderFeedTag = (item) => {
@@ -74,9 +72,7 @@ function StudentDashboard({ userName }) {
     }
   };
 
-  // --- FIX: Call the function and store the result ---
-  const todaysClasses = getTodaysClassCount();
-  // --- END FIX ---
+  const todaysClasses = getTodaysClasses();
 
   return (
     <> 
@@ -88,62 +84,70 @@ function StudentDashboard({ userName }) {
       {error && <p className="error-message">{error}</p>} 
       
       <div className="widget-grid">
-        {/* Attendance Card */}
-       <div className="widget-card">
-         <h3>Today's Classes</h3>
-         {isLoading ? (
-           <p>Loading schedule...</p>
-         ) : todaysClasses.length > 0 ? ( 
-           <ul className="dashboard-list today-classes-list">
-             {todaysClasses.map(subject => ( // This line will now work
-               <li key={subject._id}>{subject.name}</li>
-             ))}
-           </ul>
-         ) : (
-           // If no classes
-           <p>You have no classes scheduled for today.</p>
-         )}
-         <div className="card-actions"> {/* Added for good layout */}
-           <Link to="/attendance" className="card-link">Go to Attendance</Link>
-         </div>
-       </div>
+        <div className="widget-card">
+          <h3>Today's Classes</h3>
+          {isLoading ? (
+            <p>Loading schedule...</p>
+          ) : todaysClasses.length > 0 ? (
+            <>
+              <p>You have <strong>{todaysClasses.length}</strong> class(es) scheduled for today:</p>
+              <ul className="dashboard-list today-classes-list">
+                {todaysClasses.map(subject => (
+                  <li key={subject._id}>{subject.name}</li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p>You have no classes scheduled for today.</p>
+          )}
+          <div className="card-actions">
+            <Link to="/attendance" className="card-link">Go to Attendance</Link>
+          </div>
+        </div>
         
-        {/* Recent Notices Card */}
-       <div className="widget-card">
-         <h3>Recent Updates</h3>
-         {isLoading ? (
-           <p>Loading updates...</p>
-         ) : recentFeedItems.length > 0 ? (
-           <ul className="dashboard-list feed-list">
-             {recentFeedItems.map(item => (
-               <li key={item._id}>
-                 {renderFeedTag(item)}
-                 <span>{item.title}</span>
-               </li>
-             ))}
-           </ul>
-         ) : (
-           <p>No recent updates found.</p>
-         )}
-         <div className="card-actions"> {/* Added for good layout */}
-            <Link to="/notices" className="card-link">View All</Link>
+        <div className="widget-card">
+          <h3>Recent Notices</h3>
+          {isLoading ? (
+            <p>Loading notices...</p>
+          ) : recentFeedItems.length > 0 ? (
+            <ul className="dashboard-list feed-list">
+              {/* --- KEY PROP FIX --- */}
+              {recentFeedItems.map(item => (
+                <li key={item._id}>
+                  {renderFeedTag(item)}
+                  <span>{item.title}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No recent notices found.</p>
+          )}
+          <div className="card-actions">
+            <Link to="/notices" className="card-link">View All Notices</Link>
          </div>
-       </div>
+        </div>
         
-        {/* My Clubs Card */}
         <div className="widget-card">
           <h3>My Clubs</h3>
           {isLoading ? (
             <p>Loading clubs...</p>
+          ) : followedClubs.length > 0 ? (
+            <>
+              <p>You are following <strong>{followedClubs.length}</strong> club(s):</p>
+              <ul className="dashboard-list followed-clubs-list">
+                {followedClubs.slice(0, 3).map(club => ( 
+                  <li key={club._id}>{club.name}</li>
+                ))}
+              </ul>
+            </>
           ) : (
-            <p>
-              You are following <strong>{followedClubsCount}</strong> club(s).
-            </p>
+            <p>You are not following any clubs yet.</p>
           )}
-          <div className="card-actions"> {/* Added for good layout */}
+          <div className="card-actions">
             <Link to="/clubs" className="card-link">Go to Club Portal</Link> 
           </div>
         </div>
+
       </div>
     </>
   );

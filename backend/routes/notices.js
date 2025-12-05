@@ -19,7 +19,7 @@ router.get('/', auth, async (req, res) => {
       ]
     })
     .populate('author', 'name role') 
-    .sort({ isPinned: -1, createdAt: -1 }); // Pinned first, then newest
+    .sort({ isPinned: -1, createdAt: -1 }); 
 
     res.json(notices);
   } catch (err) {
@@ -34,13 +34,12 @@ router.get('/', auth, async (req, res) => {
 // @access  Private (Faculty, Admin, potentially Club roles)
 router.post('/', auth, async (req, res) => {
   try {
-   const user = await User.findById(req.user.id).select('role'); // Get user's role
-    const allowedRoles = ['faculty', 'admin', 'club']; // Define who can post
+   const user = await User.findById(req.user.id).select('role');
+    const allowedRoles = ['faculty', 'admin', 'club']; 
     if (!user || !allowedRoles.includes(user.role)) {
       return res.status(403).json({ msg: 'Authorization denied: Insufficient role.' });
     }
 
-    //  Extract data from request body
     const {
       title,
       content,
@@ -69,6 +68,16 @@ router.post('/', auth, async (req, res) => {
 
   
     await newNotice.save();
+
+    const io = req.app.get('io');
+    if (category === 'Urgent' || req.user.role === 'faculty') {
+        io.emit("receive_notification", {
+            title: `New Notice: ${title}`,
+            message: `An official notice has been posted.`,
+            type: 'notice'
+        });
+    }
+    
     const populatedNotice = await Notice.findById(newNotice._id).populate('author', 'name role');
 
     res.status(201).json(populatedNotice); 
@@ -91,22 +100,19 @@ router.delete('/:id', auth, async (req, res) => {
     const itemId = req.params.id;
     const userId = req.user.id;
 
-    // 1. Try to find it as an Announcement
     let item = await Announcement.findById(itemId);
     let itemType = 'announcement';
 
-    // 2. If not found, try to find it as an official Notice
     if (!item) {
         item = await Notice.findById(itemId);
         itemType = 'notice';
     }
 
-    // 3. If still not found, return 404
     if (!item) {
       return res.status(404).json({ msg: 'Post not found.' });
     }
 
-    // 4. Authorization Check
+ 
     const user = await User.findById(userId).select('role');
     const isAuthor = item.author.toString() === userId;
     const isAdminOrFaculty = user.role === 'faculty' || user.role === 'admin';
@@ -115,7 +121,6 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(403).json({ msg: 'Authorization denied.' });
     }
 
-    // 5. Delete from the correct collection
     if (itemType === 'announcement') {
         await Announcement.findByIdAndDelete(itemId);
     } else {
