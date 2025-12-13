@@ -12,14 +12,14 @@
 .club-card {
   display: flex;
   flex-direction: column; 
-  position: relative; /* For absolute positioning inside if needed */
-  overflow: hidden; /* Prevent content overflow */
+  position: relative; 
+  overflow: hidden; 
 }
 
 .club-logo {
-  width: 60px; /* Adjust size */
+  width: 60px; 
   height: 60px;
-  border-radius: 50%; /* Circular logo */
+  border-radius: 50%; 
   object-fit: cover;
   position: absolute;
   top: 1.5rem;
@@ -28,8 +28,8 @@
 }
 
 .club-info {
-  flex-grow: 1; /* Allow info to take up available space */
-  margin-right: 70px; /* Space for the logo */
+  flex-grow: 1; 
+  margin-right: 70px;
 }
 
 .club-info h3 {
@@ -39,7 +39,7 @@
 }
 
 .club-category {
-  display: inline-block; /* Allows padding */
+  display: inline-block;
   background-color: #e9ecef;
   color: #495057;
   padding: 0.2rem 0.6rem;
@@ -66,19 +66,19 @@
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0,0,0,0.1);
-  text-align: right; /* Align button to the right */
+  text-align: right; 
 }
 
-/* Re-use action-button style, add specifics */
+
 .follow-button {
-  background-color: #28a745; /* Green */
+  background-color: #28a745; 
 }
 .follow-button:hover {
   background-color: #218838;
 }
 
 .unfollow-button {
-  background-color: #6c757d; /* Grey */
+  background-color: #6c757d; 
 }
 .unfollow-button:hover {
   background-color: #5a6268;

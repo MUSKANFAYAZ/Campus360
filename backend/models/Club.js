@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
-// possible categories for clubs
 const clubCategories = ['Technical', 'Cultural', 'Sports', 'Social', 'Academic', 'Arts', 'Other'];
 
 const clubSchema = new Schema({

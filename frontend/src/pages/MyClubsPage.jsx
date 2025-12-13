@@ -1,10 +1,9 @@
-// frontend/src/pages/MyClubsPage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import '../components/DashboardContent.css'; // For .widget-card
-import '../pages/ClubsPage.css'; // Reuse club card styles
+import '../components/DashboardContent.css'; 
+import '../pages/ClubsPage.css';
 
 function MyClubsPage() {
     const [myClubs, setMyClubs] = useState([]);
@@ -16,7 +15,7 @@ function MyClubsPage() {
     const userRole = localStorage.getItem('userRole');
     const authHeader = { headers: { 'x-auth-token': token } };
 
-    // Fetch only the clubs coordinated by this faculty
+   
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         setError('');
@@ -67,7 +66,7 @@ function MyClubsPage() {
                                     </p>
                                 </div>
                                 <div className="club-actions">
-                                    {/* Add a link to view the club's dashboard */}
+                                   
                                     <button 
                                         className="action-button"
                                         onClick={() => alert('Faculty club management page not yet built.')}

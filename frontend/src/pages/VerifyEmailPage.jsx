@@ -12,10 +12,8 @@ function VerifyEmailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get the email passed from the registration page
   const email = location.state?.email;
 
-  // If no email was passed, redirect to register
   if (!email) {
     navigate('/register');
   }
@@ -30,7 +28,6 @@ function VerifyEmailPage() {
       const res = await axios.post('/api/auth/verify-otp', { email, otp });
 
       setSuccess(res.data.msg);
-      // Redirect to login after 3 seconds
       setTimeout(() => {
         navigate('/login');
       }, 3000);

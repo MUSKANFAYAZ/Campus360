@@ -5,7 +5,6 @@ import './Sidebar.css';
 function Sidebar({ userRole }) {
   const getNavLinkClass = ({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link';
 
-  // --- Student Links (Keep As Is) ---
   const studentLinks = (
     <>
       <NavLink to="/dashboard" className={getNavLinkClass} end> {/* Use 'end' for exact match */}
@@ -26,7 +25,6 @@ function Sidebar({ userRole }) {
     </>
   );
 
-  // --- ADD Club Links ---
   const clubLinks = (
     <>
       <NavLink to="/dashboard" className={getNavLinkClass} end>
@@ -72,7 +70,6 @@ function Sidebar({ userRole }) {
   return (
     <nav className="sidebar">
       <div className="sidebar-header">
-        {/* Maybe show Club Name here if available? */}
         <h3>Campus360</h3>
       </div>
       <div className="sidebar-links">

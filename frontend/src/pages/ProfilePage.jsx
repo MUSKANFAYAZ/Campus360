@@ -19,7 +19,7 @@ function ProfilePage() {
   const authHeader = { headers: { 'x-auth-token': token } };
   const userRole = localStorage.getItem('userRole');
 
-  // Fetch user profile data on component mount
+  
   useEffect(() => {
     const fetchProfile = async () => {
       setIsLoading(true);
@@ -43,7 +43,7 @@ function ProfilePage() {
 
   const handleProfileUpdate = (updatedUser) => {
     setUserProfile(updatedUser); 
-    localStorage.setItem('userName', updatedUser.name);//welcome kashifa upadte
+    localStorage.setItem('userName', updatedUser.name);
   };
 
   // Display user information
@@ -90,7 +90,7 @@ function ProfilePage() {
            <h2>Security</h2>
            <button 
              className="action-button change-password-btn"
-             onClick={() => setIsPasswordModalOpen(true)} // Open Password modal
+             onClick={() => setIsPasswordModalOpen(true)} 
            >
              Change Password
            </button>

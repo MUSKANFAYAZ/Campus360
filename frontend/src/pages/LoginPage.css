@@ -40,7 +40,7 @@
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-sizing: border-box; /* Important for padding to work correctly */
+  box-sizing: border-box;
 }
 
 .login-button {
@@ -122,11 +122,11 @@
 }
 
 .google-btn {
-  background-color: #DB4437; /* Google Red */
+  background-color: #DB4437;
 }
 
 .facebook-btn {
-  background-color: #4267B2; /* Facebook Blue */
+  background-color: #4267B2;
 }
 
 .register-link {

@@ -19,6 +19,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MyClubsPage from './pages/MyClubsPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import EventDetailsPage from './pages/EventDetailsPage';
+import AnnouncementDetailsPage from './pages/AnnouncementDetailsPage';
+import NoticeDetailsPage from './pages/NoticeDetailsPage';
 
 const isAuthenticated = () => localStorage.getItem('token') !== null;
 
@@ -54,7 +57,10 @@ function App() {
                 <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
                 <Route path="/my-clubs" element={<PrivateRoute><MyClubsPage /></PrivateRoute>} />
                 <Route path="/verify-email" element={<VerifyEmailPage />} />
-               
+                <Route path="/events/:id" element={<EventDetailsPage />} />
+                <Route path="/announcements/:id" element={<AnnouncementDetailsPage />} />
+                <Route path="/notices/:id" element={<NoticeDetailsPage />} />
+
                 <Route
                   path="/"
                   element={isAuthenticated() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}

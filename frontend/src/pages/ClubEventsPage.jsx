@@ -9,7 +9,6 @@ import { IoMdAddCircle } from 'react-icons/io';
 import { useClub } from '../context/ClubContext'; 
 
 function ClubEventsPage() {
-    // --- 2. GET data from the global context ---
     const { clubData, isLoading, error, refetchClubData } = useClub();
     
     const [showCreateForm, setShowCreateForm] = useState(false);
@@ -21,11 +20,9 @@ function ClubEventsPage() {
     const currentUserId = localStorage.getItem('userId');
     const authHeader = { headers: { 'x-auth-token': token } };
 
-    // --- 3. REMOVED the entire local fetchData and useEffect block ---
-
     // Handler when a new event is created
     const handleEventCreated = () => {
-        refetchClubData(); // Tell the context to refresh
+        refetchClubData(); 
         setShowCreateForm(false);
     };
 
@@ -36,7 +33,7 @@ function ClubEventsPage() {
         if (!window.confirm("Delete this event?")) return;
          try {
              await axios.delete(`/api/clubs/${clubId}/events/${eventId}`, authHeader);
-             refetchClubData(); // Refresh list
+             refetchClubData(); 
              alert("Event deleted successfully.");
          } catch (err) {
              alert('Failed to delete event.');
@@ -52,21 +49,18 @@ function ClubEventsPage() {
         });
     };
 
-    // --- 4. RENDER based on context state ---
     const clubName = clubData?.clubDetails?.name || 'Club Events';
-    const events = clubData?.upcomingEvents || []; // Use data from context
+    const events = clubData?.upcomingEvents || []; 
 
     return (
         <Layout userRole={userRole}>
             <h1>{clubName} - Events</h1>
 
-            {/* Handle Loading/Error from context */}
             {isLoading && <div className="widget-card"><p>Loading...</p></div>}
             {error && <div className="widget-card error-card"><p className="error-message">{error}</p></div>}
 
             {!isLoading && !error && clubData && (
                 <>
-                    {/* Create Button (Club reps only) */}
                     {role === 'club' && !showCreateForm && (
                         <button onClick={() => setShowCreateForm(true)} className="action-button" style={{ marginBottom: '1.5rem', width: 'auto' }}>
                             <IoMdAddCircle /> Create New Event
@@ -82,7 +76,6 @@ function ClubEventsPage() {
                         </div>
                     )}
 
-                    {/* List of Events */}
                     <div className="events-list">
                         {events.length === 0 ? (
                             <div className="widget-card"><p>No events scheduled yet.</p></div>

@@ -17,7 +17,7 @@ function ClubFollowersPage() {
     const userRole = localStorage.getItem('userRole');
     const authHeader = { headers: { 'x-auth-token': token } };
 
-    // Fetch the full follower list
+
     const fetchFollowers = useCallback(async () => {
         setIsLoading(true);
         setError('');
@@ -38,18 +38,17 @@ function ClubFollowersPage() {
         fetchFollowers();
     }, [fetchFollowers]);
 
-    // Handle the remove follower action
+    
     const handleRemoveFollower = async (followerId, followerName) => {
         if (!window.confirm(`Are you sure you want to remove ${followerName} from your followers?`)) {
             return;
         }
         try {
             await axios.put('/api/clubs/myclub/remove-follower',
-                { userIdToRemove: followerId }, // Send the ID in the body
+                { userIdToRemove: followerId }, 
                 authHeader
             );
             alert(`${followerName} has been removed.`);
-            // Refresh the list
             fetchFollowers();
         } catch (err) {
             alert('Failed to remove follower.');
@@ -57,7 +56,6 @@ function ClubFollowersPage() {
         }
     };
 
-    // Filter followers based on the search input
     const filteredFollowers = followers.filter(follower =>
         follower.name.toLowerCase().includes(filter.toLowerCase())
     );

@@ -12,17 +12,15 @@ function RoleSelection({ onRoleSet }) {
     try {
       const token = localStorage.getItem('token');
 
-      // Call the new protected route
       const res = await axios.put('/api/user/role', 
-        { role }, // The body
-        { headers: { 'x-auth-token': token } } // The header
+        { role }, 
+        { headers: { 'x-auth-token': token } } 
       );
 
-      // IMPORTANT: Update localStorage with the NEW token and role
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userRole', res.data.role);
 
-      // Tell the DashboardPage to re-render
+    
       onRoleSet(res.data.role);
 
     } catch (err) {

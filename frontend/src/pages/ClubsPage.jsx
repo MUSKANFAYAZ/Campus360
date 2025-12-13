@@ -1,10 +1,9 @@
-// frontend/src/pages/ClubsPage.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../components/DashboardContent.css';
 import './ClubsPage.css'; 
-import Layout from '../components/Layout'; // Import Layout
+import Layout from '../components/Layout'; 
 
 function ClubsPage() {
   const [clubs, setClubs] = useState([]);
@@ -18,19 +17,17 @@ function ClubsPage() {
   const authHeader = { headers: { 'x-auth-token': token } };
   const userRole = localStorage.getItem('userRole');
 
-  // Fetch all clubs AND the user's followed clubs
+ 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setError('');
     if (!token) { navigate('/login'); return; }
 
     try {
-      // --- FIX: Fetch both clubs and user data concurrently ---
       const [clubsRes, userRes] = await Promise.all([
-        axios.get('/api/clubs', authHeader),      // 1. Get all clubs
-        axios.get('/api/auth/me', authHeader) // 2. Get current user's data
+        axios.get('/api/clubs', authHeader),     
+        axios.get('/api/auth/me', authHeader) 
       ]);
-      // --- END FIX ---
 
       setClubs(clubsRes.data || []);
       const followedClubObjects = userRes.data?.followedClubs || [];
@@ -44,19 +41,19 @@ function ClubsPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [token, navigate]); // Dependencies
+  }, [token, navigate]); 
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  // Handle Follow action
+  
   const handleFollow = async (clubId, clubName) => {
     setButtonLoading(clubId);
     try {
       if (!token) throw new Error("Authentication error.");
       const res = await axios.put(`/api/clubs/follow/${clubId}`, {}, authHeader);
-      setFollowedClubs(new Set(res.data.followedClubs)); // Update state with new list
+      setFollowedClubs(new Set(res.data.followedClubs)); 
     } catch (err) {
       console.error("Follow Error:", err.response?.data || err);
       alert(`Failed to follow ${clubName}.`);
@@ -66,13 +63,13 @@ function ClubsPage() {
     }
   };
 
-  // Handle Unfollow action
+  
   const handleUnfollow = async (clubId, clubName) => {
     setButtonLoading(clubId);
     try {
       if (!token) throw new Error("Authentication error.");
       const res = await axios.put(`/api/clubs/unfollow/${clubId}`, {}, authHeader);
-      setFollowedClubs(new Set(res.data.followedClubs)); // Update state
+      setFollowedClubs(new Set(res.data.followedClubs)); 
     } catch (err) {
       console.error("Unfollow Error:", err.response?.data || err);
       alert(`Failed to unfollow ${clubName}.`);

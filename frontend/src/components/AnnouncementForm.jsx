@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './DashboardContent.css'; // Import global styles for widget-card
-import './AnnouncementForm.css'; // Import specific form styles if you have them
+import './DashboardContent.css'; 
+import './AnnouncementForm.css'; 
 
 function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
   const [title, setTitle] = useState('');
@@ -48,7 +48,7 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
         onAnnouncementCreated(res.data);
       }
       
-      // Reset form
+  
       setTitle('');
       setContent('');
       
@@ -64,13 +64,11 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
   };
 
   return (
-    // We use 'widget-card' to get the white frosted glass background
-    // We add 'announcement-form-card' for specific sizing (defined in CSS)
     <div className="widget-card announcement-form-card">
       <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>New Announcement</h2>
       
       <form onSubmit={handleSubmit}>
-        {/* Title Input */}
+  
         <div className="form-group">
           <label htmlFor="announcementTitle">Title</label>
           <input
@@ -83,7 +81,7 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
           />
         </div>
 
-        {/* Content Textarea */}
+    
         <div className="form-group">
           <label htmlFor="announcementContent">Content</label>
           <textarea
@@ -96,10 +94,10 @@ function AnnouncementForm({ clubId, onAnnouncementCreated, onClose }) {
           />
         </div>
 
-        {/* Error Message */}
+      
         {error && <p className="error-message">{error}</p>}
 
-        {/* Action Buttons */}
+      
         <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
           {onClose && (
             <button 

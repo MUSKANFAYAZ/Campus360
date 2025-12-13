@@ -25,7 +25,6 @@ function PasswordInput({ label, id, value, onChange, required = false }) {
           className="password-toggle-btn"
           onClick={toggleVisibility}
         >
-          {/* 2. Use the new icon components */}
           {showPassword ? <BsEyeSlashFill /> : <BsEyeFill />}
         </button>
       </div>

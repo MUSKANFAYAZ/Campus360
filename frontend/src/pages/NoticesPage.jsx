@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import NoticeItem from '../components/NoticeItem';
+import EventItem from '../components/EventItem';
+import AnnouncementItem from '../components/AnnouncementItem';
 import Layout from '../components/Layout';
 import '../components/DashboardContent.css';
 import './NoticesPage.css'; 
 import { useNavigate } from 'react-router-dom';
 import NoticeModal from '../components/NoticeModal'; 
-import { BsMegaphoneFill, BsCalendarEventFill } from 'react-icons/bs';
 import { IoMdAddCircle } from "react-icons/io";
 
 function NoticesPage() {
@@ -43,7 +44,6 @@ function NoticesPage() {
   };
 
 
-  // Fetch the combined feed
   const fetchFeed = useCallback(async () => {
     setIsLoading(true); setError('');
     if (!token) { navigate('/login'); return; }
@@ -63,7 +63,7 @@ function NoticesPage() {
     fetchFeed();
   }, [fetchFeed]);
 
-  // Handle deletion
+
   const handleDelete = async (item) => {
     let deleteUrl;
     if (item.type === 'notice') deleteUrl = `/api/notices/${item._id}`;
@@ -74,21 +74,21 @@ function NoticesPage() {
 
     try {
       await axios.delete(deleteUrl, authHeader);
-      fetchFeed(); // Refresh the feed
+      fetchFeed(); 
     } catch (err) {
        alert('Failed to delete post.');
     }
   };
 
-  // --- FILTERING LOGIC ---
+ 
   const filteredFeed = feed.filter(item => {
     const typeMatch = filter === 'all' || item.type === filter;
     
     let myClubMatch = true;
     if (showOnlyMyClubs) {
-        if (item.type === 'notice') { myClubMatch = true; } // Always show official
+        if (item.type === 'notice') { myClubMatch = true; } 
         else {
-            // Check if item's club ID is in the user's list
+            
             myClubMatch = item.club && userClubListSet.has(item.club._id);
         }
     }
@@ -115,7 +115,7 @@ function NoticesPage() {
          </button>
       )}
 
-      {/* --- Filter UI (Updated) --- */}
+    
       <div className="widget-card feed-filters">
         <div className="filter-buttons">
           <button onClick={() => setFilter('all')} className={filter === 'all' ? 'active' : ''}>All Posts</button>
@@ -125,7 +125,6 @@ function NoticesPage() {
         </div>
 
         <div className="filter-toggle">
-          {/* Only show the toggle if NOT on "Official Notices" tab */}
           {filter !== 'notice' && (
             <>
               <input
@@ -134,7 +133,7 @@ function NoticesPage() {
                 checked={showOnlyMyClubs}
                 onChange={(e) => setShowOnlyMyClubs(e.target.checked)}
               />
-              {/* Show different text based on role */}
+              
               {role === 'student' && (
                 <label htmlFor="myClubsToggle">Show only my followed clubs</label>
               )}
@@ -148,7 +147,7 @@ function NoticesPage() {
           )}
         </div>
       </div>
-      {/* --- End Filter UI --- */}
+      
 
       {isLoading && <div className="widget-card"><p>Loading feed...</p></div>}
       {error && <p className="error-message">{error}</p>}
@@ -158,49 +157,30 @@ function NoticesPage() {
           {filteredFeed.length === 0 ? (
             <div className="widget-card"><p>No posts match your filters.</p></div>
           ) : (
-            // --- THIS IS THE MAIN FIX ---
-            // We render the JSX directly inside the map
+            
             filteredFeed.map(item => {
-              
-              // --- Case 1: Official Notice (Uses imported component) ---
               if (item.type === 'notice') {
                 return <NoticeItem key={`notice-${item._id}`} notice={item} currentUserRole={userRole} currentUserId={currentUserId} onDelete={() => handleDelete(item)} />;
               }
               
-              // --- Case 2: Club Announcement (JSX is inline) ---
               if (item.type === 'announcement') {
                 return (
-                  <div key={`announcement-${item._id}`} className="widget-card notice-item club-announcement">
-                    <h3 className="notice-title">{item.title}</h3>
-                    <p className="notice-meta">
-                      <span className="notice-category club-tag">
-                        <BsMegaphoneFill /> {item.club?.name || 'Club'}
-                      </span>
-                      | Posted by {item.author?.name || 'N/A'} on {formatAnnounceDate(item.createdAt)}
-                    </p>
-                    <div className="notice-content">
-                      {item.content.split('\n').map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
-                    </div>
-                  </div>
+                  <AnnouncementItem 
+                    key={`announcement-${item._id}`} 
+                    announcement={item}
+                    onDelete={role === 'club' || role === 'admin' ? () => handleDelete(item) : null}
+                  />
                 );
               }
 
-              // --- Case 3: Club Event (JSX is inline) ---
+              
               if (item.type === 'event') {
                 return (
-                  <div key={`event-${item._id}`} className="widget-card notice-item club-event">
-                    <h3 className="notice-title">{item.title}</h3>
-                    <p className="notice-meta event-meta">
-                      <span className="notice-category club-tag">
-                        <BsCalendarEventFill /> {item.club?.name || 'Club'}
-                      </span>
-                      | 🗓️ {formatEventDate(item.date)}
-                      {item.location && ` | 📍 ${item.location}`}
-                    </p>
-                    <div className="notice-content">
-                      {item.description.split('\n').map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
-                    </div>
-                  </div>
+                  <EventItem 
+                    key={`event-${item._id}`} 
+                    event={item}
+                    onDelete={role === 'club' || role === 'admin' ? () => handleDelete(item) : null}
+                  />
                 );
               }
               

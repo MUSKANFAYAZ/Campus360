@@ -87,27 +87,20 @@
 }
 
 .logout-button {
-  /* Positioning */
   position: absolute; 
   top: 1.5rem;
   right: 2rem;
   z-index: 10;
-
-  /* Frosted glass style */
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 6px;
-
-  /* Text and Padding */
   color: #333;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-
-  /* Shadow and Transition */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -121,9 +114,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.3rem; /* Space between tag and title */
-  font-size: 1rem; /* Adjust font size */
-  font-weight: 600; /* Make title semi-bold */
+  gap: 0.3rem;
+  font-size: 1rem; 
+  font-weight: 600;
   color: var(--text-color-secondary, #555);
   font-style: italic;
 }
@@ -138,25 +131,23 @@
 }
 
 .notice-tag {
-  background-color: #dc3545; /* Red for official notices */
+  background-color: #dc3545; 
 }
 
 .announcement-tag {
-  background-color: #343a40; /* Dark grey for club announcements */
+  background-color: #343a40; 
 }
 
 .event-tag {
-  background-color: #6f42c1; /* Purple for events */
+  background-color: #6f42c1; 
 }
 
 .today-classes-list {
-  /* Inherits .dashboard-list styles */
-  flex-grow: 1; /* Make sure it pushes the link to the bottom */
+  flex-grow: 1; 
 }
 
 .today-classes-list li {
-  /* Inherits .dashboard-list li styles */
-  font-weight: 600; /* Make class names bold */
+  font-weight: 600; 
   font-size: 1rem;
   color: #333;
 }

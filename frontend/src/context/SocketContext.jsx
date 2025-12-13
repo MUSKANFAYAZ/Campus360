@@ -39,7 +39,6 @@ export const SocketProvider = ({ children }) => {
         });
 
         if (token) {
-            // We need to fetch the list of clubs the user follows to join their rooms
             axios.get('/api/auth/me', { headers: { 'x-auth-token': token } })
                 .then(res => {
                     const followedClubs = res.data.followedClubs || [];

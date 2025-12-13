@@ -4,8 +4,8 @@
   background-color: rgba(0, 0, 0, 0.6); display: flex;
   justify-content: center; align-items: center; z-index: 1000;
 }
-.modal-content { /* widget-card style is applied */
-  width: 90%; max-width: 600px; /* Wider modal for content */
+.modal-content {
+  width: 90%; max-width: 600px; 
   position: relative;
 }
 .modal-content h2 { margin-top: 0; text-align: center; margin-bottom: 1.5rem; }
@@ -20,25 +20,25 @@
   border-radius: 4px; box-sizing: border-box; background-color: #fff; font-size: 1rem;
 }
 .modal-content .form-group textarea {
-  resize: vertical; /* Allow vertical resize */
+  resize: vertical; 
   min-height: 100px;
 }
 .modal-content .error-message { color: #d9534f; text-align: center; margin-bottom: 1rem; }
 
-/* Checkbox styling */
+
 .checkbox-group {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 .checkbox-group input[type="checkbox"] {
-    width: auto; /* Override default width */
+    width: auto; 
     margin-right: 0.5rem;
     cursor: pointer;
 }
 .checkbox-group label {
-    margin-bottom: 0; /* Remove bottom margin for inline label */
-    font-weight: normal; /* Normal weight for checkbox label */
+    margin-bottom: 0; 
+    font-weight: normal; 
     cursor: pointer;
 }
 
@@ -48,7 +48,7 @@
   padding: 0.75rem 1.5rem; background-color: #f8f9fa; border: 1px solid #ddd;
   color: #333; font-weight: 600; border-radius: 4px; cursor: pointer;
 }
-.modal-actions .register-button { /* Reuse register button style for create */
+.modal-actions .register-button { 
   padding: 0.75rem 1.5rem; background-color: #007bff; border: none;
   color: white; font-weight: 600; border-radius: 4px; cursor: pointer;
 }

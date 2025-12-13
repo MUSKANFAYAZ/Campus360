@@ -1,4 +1,3 @@
-// frontend/src/pages/ClubSettingsPage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,11 +18,10 @@ function ClubSettingsPage() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('Other');
     const [memberCount, setMemberCount] = useState('');
-    const [teamMembers, setTeamMembers] = useState([{ name: '', role: '' }]); // Start with one
+    const [teamMembers, setTeamMembers] = useState([{ name: '', role: '' }]);
     const [facultyList, setFacultyList] = useState([]);
     const [selectedCoordinator, setSelectedCoordinator] = useState('');
     
-    // UI State
     const [isSaving, setIsSaving] = useState(false);
     const [formError, setFormError] = useState('');
     const [formSuccess, setFormSuccess] = useState('');
@@ -33,7 +31,6 @@ function ClubSettingsPage() {
     const userRole = localStorage.getItem('userRole');
     const authHeader = { headers: { 'x-auth-token': token } };
 
-    // This useEffect populates the form once the context is loaded
     useEffect(() => {
         if (clubData && clubData.clubDetails) {
             const { clubDetails } = clubData;
@@ -41,13 +38,10 @@ function ClubSettingsPage() {
             setDescription(clubDetails.description || '');
             setCategory(clubDetails.category || 'Other');
             setMemberCount(String(clubDetails.memberCount || ''));
-            // Ensure teamMembers is an array, even if empty
             setTeamMembers(clubDetails.team && clubDetails.team.length > 0 ? clubDetails.team : [{ name: '', role: '' }]);
-            // Pre-fill coordinator ID (handles populated object or simple ID)
             setSelectedCoordinator(clubData.clubDetails.facultyCoordinator?._id || clubData.clubDetails.facultyCoordinator || '');
         }
 
-        // Fetch faculty list (this is separate from club data)
         const fetchFaculty = async () => {
             try {
                 if (token) {
@@ -59,10 +53,10 @@ function ClubSettingsPage() {
             }
         };
         fetchFaculty();
-    }, [clubData, token]); // Re-run if clubData from context changes
+    }, [clubData, token]);
 
     
-    // --- Team Member Handlers ---
+   
     const handleMemberChange = (index, event) => {
         const values = [...teamMembers];
         values[index][event.target.name] = event.target.value;
@@ -79,7 +73,6 @@ function ClubSettingsPage() {
         setTeamMembers(values);
     };
 
-    // --- Main Form Handlers ---
     const handleUpdate = async (e) => {
         e.preventDefault();
         setFormError("");
@@ -110,10 +103,9 @@ function ClubSettingsPage() {
                 facultyCoordinator: selectedCoordinator || null
             };
             
-            // Call the PUT route to update
+            
             const res = await axios.put("/api/clubs/myclub", updatedData, authHeader);
             
-            // Re-sync form state with the saved data
             const savedData = res.data;
             setName(savedData.name);
             setDescription(savedData.description);
@@ -124,7 +116,6 @@ function ClubSettingsPage() {
 
             setFormSuccess("Club profile updated successfully!");
             
-            // Tell the global context to refetch all data
             refetchClubData(); 
 
         } catch (err) {
@@ -135,7 +126,6 @@ function ClubSettingsPage() {
         }
     };
 
-    // Handle club DELETION
     const handleDelete = async () => {
         if (!clubData?.clubDetails) return;
 
@@ -158,12 +148,11 @@ function ClubSettingsPage() {
             const res = await axios.delete("/api/clubs/myclub", authHeader);
             alert(res.data.msg);
             
-            // Clear local storage and redirect to login
             localStorage.removeItem('token');
             localStorage.removeItem('userName');
             localStorage.removeItem('userRole');
             localStorage.removeItem('userId');
-            navigate("/login"); // Redirect to login page
+            navigate("/login"); 
 
         } catch (err) {
             setFormError(err.response?.data?.msg || "Failed to delete club.");
@@ -173,9 +162,7 @@ function ClubSettingsPage() {
         }
     };
 
-    // --- Render Logic ---
-
-    // 1. Handle Loading State (from context)
+   
     if (isContextLoading) {
         return (
             <Layout userRole={userRole}>
@@ -184,7 +171,6 @@ function ClubSettingsPage() {
         );
     }
 
-    // 2. Handle Error State (from context)
     if (contextError) {
         return (
             <Layout userRole={userRole}>
@@ -194,7 +180,6 @@ function ClubSettingsPage() {
         );
     }
 
-    // 3. Handle No Club Found (from context)
     if (!clubData || !clubData.clubDetails) {
         return (
             <Layout userRole={userRole}>
@@ -206,23 +191,19 @@ function ClubSettingsPage() {
         );
     }
 
-    // 4. Main content (data is loaded)
     return (
         <Layout userRole={userRole}>
-            {/* Use h1 for page title */}
             <h1 style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                 Club Settings: {clubData.clubDetails.name}
             </h1>
 
-            {/* Edit Profile Form */}
             <div
-                className="widget-card club-creation-form" // Reuse styles
+                className="widget-card club-creation-form" 
                 style={{ maxWidth: "800px", margin: "0 auto" }}
             >
                 <form onSubmit={handleUpdate}>
                     <h2>Update Details</h2>
                     
-                    {/* Name */}
                     <div className="form-group">
                         <label htmlFor="clubName">Club Name</label>
                         <input type="text" id="clubName" value={name}
@@ -230,7 +211,6 @@ function ClubSettingsPage() {
                         />
                     </div>
                     
-                    {/* Description */}
                     <div className="form-group">
                         <label htmlFor="clubDescription">Description</label>
                         <textarea id="clubDescription" value={description}
@@ -238,7 +218,6 @@ function ClubSettingsPage() {
                         />
                     </div>
                     
-                    {/* Category */}
                     <div className="form-group">
                         <label htmlFor="clubCategory">Category</label>
                         <select id="clubCategory" value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -246,7 +225,6 @@ function ClubSettingsPage() {
                         </select>
                     </div>
 
-                    {/* Faculty Coordinator */}
                     <div className="form-group">
                         <label htmlFor="facultyCoordinator">Faculty Coordinator (Optional)</label>
                         <select
@@ -265,7 +243,6 @@ function ClubSettingsPage() {
                         </select>
                     </div>
 
-                    {/* Member Count */}
                     <div className="form-group">
                         <label htmlFor="memberCount">Total Number of Members</label>
                         <input
@@ -276,7 +253,7 @@ function ClubSettingsPage() {
                         />
                     </div>
                     
-                    {/* Team Members */}
+
                     <div className="form-group">
                         <label>Team Members (Leaders)</label>
                         {teamMembers.map((member, index) => (
@@ -311,7 +288,7 @@ function ClubSettingsPage() {
                         </button>
                     </div>
 
-                    {/* Feedback Messages */}
+                    
                     {formSuccess && <p className="success-message">{formSuccess}</p>}
                     {formError && <p className="error-message">{formError}</p>}
 
@@ -326,19 +303,19 @@ function ClubSettingsPage() {
                 </form>
             </div>
 
-            {/* Delete Club Section */}
+            
             <div
-                className="widget-card security-card" // Reuse styles
+                className="widget-card security-card" 
                 style={{ marginTop: "2rem", maxWidth: "800px", margin: "2rem auto" }}
             >
                 <h2>Danger Zone</h2>
-                <p style={{ color: "black", fontSize: "1rem" }}> {/* Adjusted text size */}
+                <p style={{ color: "black", fontSize: "1rem" }}>
                     Deleting your club is permanent. It will remove all associated
                     announcements, events, and followers.
                 </p>
                 <button
                     onClick={handleDelete}
-                    className="action-button change-password-btn" // Reuses red button style
+                    className="action-button change-password-btn" 
                     disabled={isSaving}
                 >
                     {isSaving ? "Deleting..." : `Delete ${clubData.clubDetails.name}`}

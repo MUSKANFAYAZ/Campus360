@@ -1,11 +1,10 @@
-// frontend/src/components/FacultyDashboard.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import '../components/DashboardContent.css'; // For .widget-card
-import '../pages/AttendancePage.css'; // <-- 1. REUSE AttendancePage layout styles
-import NoticeModal from './NoticeModal'; // For the "Create Notice" modal
-import { IoMdAddCircle } from 'react-icons/io'; // Icon
+import '../components/DashboardContent.css';
+import '../pages/AttendancePage.css'; 
+import NoticeModal from './NoticeModal'; 
+import { IoMdAddCircle } from 'react-icons/io'; 
 
 function FacultyDashboard({ userName }) {
     const [recentNotices, setRecentNotices] = useState([]);
@@ -43,14 +42,13 @@ function FacultyDashboard({ userName }) {
 
     const handleModalClose = () => {
         setIsNoticeModalOpen(false);
-        fetchData(); // Refresh notices after one is posted
+        fetchData(); 
     };
 
     const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
 
     return (
         <>
-            {/* --- Welcome Headers --- */}
             <h1 style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                 Welcome, {userName}!
             </h1>
@@ -58,25 +56,20 @@ function FacultyDashboard({ userName }) {
                 Here are your administrative tools and updates.
             </p>
 
-            {/* --- 2. Use the 'attendance-grid' layout --- */}
             <div className="attendance-grid">
-                
-                {/* --- 3. Main Content Area (Left) --- */}
                 <div className="attendance-main">
-                    {/* Create Notice Card */}
                     <div className="widget-card">
                         <h3>Create a New Notice</h3>
                         <p>Post an official notice for students, faculty, or all users.</p>
                         <button 
                             className="action-button" 
                             onClick={() => setIsNoticeModalOpen(true)}
-                            style={{ width: '100%' }} // Make button full width
+                            style={{ width: '100%' }} 
                         >
                             <IoMdAddCircle /> Create Notice
                         </button>
                     </div>
 
-                    {/* Recent Notices Card */}
                     <div className="widget-card">
                         <h3>Recent Notices</h3>
                         {isLoading ? (
@@ -100,9 +93,7 @@ function FacultyDashboard({ userName }) {
                     </div>
                 </div>
 
-                {/* --- 4. Sidebar Area (Right) --- */}
                 <div className="attendance-sidebar">
-                    {/* Coordinated Clubs Card */}
                     <div className="widget-card">
                         <h3>My Coordinated Clubs</h3>
                         {isLoading ? (
@@ -121,7 +112,6 @@ function FacultyDashboard({ userName }) {
                         </div>
                     </div>
 
-                    {/* Profile Card */}
                     <div className="widget-card">
                         <h3>My Profile</h3>
                         <p>View and manage your account details and password.</p>
@@ -134,7 +124,6 @@ function FacultyDashboard({ userName }) {
                 </div>
             </div>
 
-            {/* --- 5. Render Notice Modal (it's hidden by default) --- */}
             {isNoticeModalOpen && (
                  <div className="modal-overlay">
                     <NoticeModal

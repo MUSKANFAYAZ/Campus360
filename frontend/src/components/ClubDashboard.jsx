@@ -20,7 +20,6 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
   const token = localStorage.getItem("token");
   const authHeader = { headers: { "x-auth-token": token } };
 
-  // --- Fetch Club Data (Club Details, Announcements, Events, Followers) ---
   const fetchClubData = useCallback(async () => {
     setIsLoading(true);
     setError("");
@@ -30,7 +29,6 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
       return;
     }
     try {
-      // 1. Fetch the club managed by this user
       const clubRes = await axios.get("/api/clubs/myclub", authHeader);
 
       if (clubRes.data && clubRes.data.clubDetails) {
@@ -45,7 +43,6 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
         setEvents(clubRes.data.upcomingEvents || []);
         setFollowers(clubRes.data.followers || []);
       } else {
-        // This case redirects to ClubCreationForm via DashboardPage logic
         setError("No club profile found. Please create one.");
         setClubDetails(null);
       }
@@ -57,7 +54,7 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
       );
       if (err.response?.status === 401) {
         console.error("Authentication error (401).");
-        localStorage.clear(); // Clear local storage on auth error
+        localStorage.clear(); 
         navigate("/login");
       }
     } finally {
@@ -69,7 +66,7 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
     fetchClubData();
   }, [fetchClubData]);
 
-  // --- Navigation/Modal Handlers ---
+  
   const handleEditProfileClick = () => {
     if (clubDetails?._id) {
       navigate(`/edit-club-profile/${clubDetails._id}`); // Navigate to edit page
@@ -87,22 +84,19 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
   };
 
   const handleEventCreated = (newEvent) => {
-    fetchClubData(); // Refetch all data to get updated events list
-    setIsEventModalOpen(false); // Close the modal
+    fetchClubData(); 
+    setIsEventModalOpen(false); 
   };
 
-  // --- Render Logic ---
   if (isLoading) return <p style = {{color:"white"}}>Loading club dashboard...</p>;
   if (error) return <p className="error-message">{error}</p>;
   if (!clubDetails) return <p>Could not load club details.</p>;
 
-  // Sort events by date (assuming 'date' field exists and is sortable)
   const upcomingEvents = events
     .filter((evt) => new Date(evt.date) >= new Date())
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 5);
 
-  // Sort announcements by creation date (newest first)
   const recentAnnouncements = announcements
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 5);
@@ -121,7 +115,7 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
       </p>
 
       <div className="widget-grid">
-        {/* Club Profile Card */}
+     
         <div className="widget-card">
           <h3>Club Profile</h3>
           <p>
@@ -136,7 +130,7 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
           </button>
         </div>
 
-        {/* Announcements Card */}
+      
         <div className="widget-card">
           <h3>Recent Announcements</h3>
           {recentAnnouncements.length > 0 ? (
@@ -151,10 +145,8 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
           <button onClick={openNewAnnouncementModal} className="action-button">
             New Announcement
           </button>
-          {/* Add "View All" link later */}
         </div>
 
-        {/* Events Card */}
         <div className="widget-card">
           <h3>Upcoming Events</h3>
           {upcomingEvents.length > 0 ? (
@@ -171,10 +163,8 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
           <button onClick={openNewEventModal} className="action-button">
             New Event
           </button>
-          {/* Add "View All" link later */}
         </div>
 
-        {/* Followers Card */}
         <div className="widget-card">
           <h3>
             Followers ({followers.length}
@@ -197,7 +187,7 @@ function ClubDashboard({ userName, clubDetails: initialClubDetails }) {
         <div className="modal-overlay">
           {" "}
           <AnnouncementForm
-            clubId={clubDetails._id} // Pass the club ID
+            clubId={clubDetails._id} 
             onClose={() => setIsAnnouncementModalOpen(false)}
             onAnnouncementCreated={(newAnnouncement) => {
               fetchClubData();

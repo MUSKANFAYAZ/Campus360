@@ -1,9 +1,8 @@
-// frontend/src/pages/ResetPasswordPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import './RegisterPage.css'; // Reusing styles
-import PasswordInput from '../components/PasswordInput'; // Your component
+import './RegisterPage.css'; 
+import PasswordInput from '../components/PasswordInput'; 
 
 function ResetPasswordPage() {
   const [password, setPassword] = useState('');
@@ -11,10 +10,9 @@ function ResetPasswordPage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const { token } = useParams();
-  const navigate = useNavigate(); // This function is already here
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
-    // ... (your existing handleSubmit logic is perfect)
     e.preventDefault();
     setError('');
     setMessage('');

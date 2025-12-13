@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Wrap on small screens */
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -48,32 +48,32 @@
   cursor: pointer;
 }
 
-/* New styles for club tags */
+
 .club-announcement {
-  border-left-color: #17a2b8; /* Teal border for club announcements */
+  border-left-color: #17a2b8; 
 }
 .club-event {
-  border-left-color: #6f42c1; /* Purple border for club events */
+  border-left-color: #6f42c1; 
 }
 
 .club-tag {
-  background-color: #343a40 !important; /* Dark background */
+  background-color: #343a40 !important; 
   color: white !important;
   font-weight: 600;
 }
 
 .club-announcement {
-  border-left-color: #17a2b8 !important; /* Teal */
+  border-left-color: #17a2b8 !important; 
 }
 
-/* Specific border color for Club Events */
+
 .club-event {
-  border-left-color: #6f42c1 !important; /* Purple */
+  border-left-color: #6f42c1 !important; 
+
 }
 
-/* Style for the "Club Name" tag */
 .club-tag {
-  background-color: #343a40 !important; /* Dark grey/black */
+  background-color: #343a40 !important; 
   color: white !important;
   font-weight: 600;
   display: inline-flex;
@@ -81,8 +81,8 @@
   gap: 0.4rem;
 }
 
-/* Specific style for event meta text */
+
 .event-meta {
-  font-weight: 500; /* Make date/location slightly bolder */
+  font-weight: 500; 
   color: #333;
 }

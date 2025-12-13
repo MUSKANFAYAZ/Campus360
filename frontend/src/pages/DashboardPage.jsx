@@ -2,8 +2,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components/DashboardContent.css";
 import axios from "axios";
-
-// --- Component Imports ---
 import Layout from "../components/Layout";
 import FullScreenBgLayout from "../components/FullScreenBgLayout";
 import RoleSelection from "../components/RoleSelection";
@@ -27,7 +25,7 @@ function DashboardPage() {
   const [clubDashboardData, setClubDashboardData] = useState(undefined);
   const [isLoadingClub, setIsLoadingClub] = useState(true);
 
-  // --- Fetch Managed Club if Role is 'club' ---
+
   const checkManagedClub = useCallback(async () => {
     if (userRole === "club" && token) {
       setIsLoadingClub(true);
@@ -42,7 +40,7 @@ function DashboardPage() {
         setIsLoadingClub(false);
       }
     } else {
-      setIsLoadingClub(false); // Not a club user, no need to load
+      setIsLoadingClub(false);
     }
   }, [userRole, token, navigate]);
 
@@ -50,17 +48,15 @@ function DashboardPage() {
     checkManagedClub();
   }, [checkManagedClub]);
 
-  // --- Handlers ---
+
   const handleLogout = () => {
-    localStorage.clear(); // Use clear() for a full logout
+    localStorage.clear(); 
     navigate("/login");
   };
   const handleRoleSet = (newRole) => { setUserRole(newRole); };
   const handleClubCreated = () => { checkManagedClub(); };
 
-  // --- Render Logic ---
-
-  // 1. If role is not set, show RoleSelection (NO Layout)
+ 
   if (!userRole) {
     return <RoleSelection onRoleSet={handleRoleSet} />;
   }
@@ -89,9 +85,8 @@ function DashboardPage() {
       );
     }
     
-    // 2b. Loading finished, and NO club exists
+   
     if (clubDashboardData === null) {
-      // Render the creation form with its own full-screen background (NO Layout)
       return (
         <FullScreenBgLayout>
           <ClubCreationForm onClubCreated={handleClubCreated} />
@@ -120,7 +115,7 @@ function DashboardPage() {
                 initialAnnouncements={clubDashboardData.recentAnnouncements}
                 initialEvents={clubDashboardData.upcomingEvents}
                 initialFollowers={clubDashboardData.followers}
-                onDataRefresh={checkManagedClub} // Pass the refetch function
+                onDataRefresh={checkManagedClub}
               />
             );
           default:

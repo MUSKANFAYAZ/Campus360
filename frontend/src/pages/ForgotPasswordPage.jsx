@@ -1,8 +1,7 @@
-// frontend/src/pages/ForgotPasswordPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './RegisterPage.css'; // We can reuse the register page styles
+import './RegisterPage.css'; 
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -14,7 +13,6 @@ function ForgotPasswordPage() {
     setError('');
     setMessage('');
     try {
-      // This calls your backend route
       const res = await axios.post('/api/auth/forgot-password', { email });
       setMessage(res.data.msg || 'If an account exists, a reset link has been sent.');
     } catch (err) {

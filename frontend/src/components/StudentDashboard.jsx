@@ -23,18 +23,15 @@ function StudentDashboard({ userName }) {
       return;
     }
     try {
-      // Fetch subjects, user profile, and feed at the same time
       const [subjectsRes, userRes, feedRes] = await Promise.all([
         axios.get('/api/attendance/subjects', authHeader),
-        axios.get('/api/auth/me', authHeader) ,// This fetches user data (including followed clubs)
+        axios.get('/api/auth/me', authHeader) ,
         axios.get('/api/feed', authHeader)
       ]);
 
       setSubjects(subjectsRes.data || []);
       setRecentFeedItems((feedRes.data?.feed || []).slice(0, 3));
-      
-      // --- THIS IS THE FIX FOR CLUB NAMES ---
-      // It saves the populated list of clubs (with names) to state
+   
       setFollowedClubs(userRes.data?.followedClubs || []); 
 
     } catch (err) {
@@ -50,7 +47,6 @@ function StudentDashboard({ userName }) {
     fetchData();
   }, [fetchData]);
 
-  // This function returns the array of today's classes
   const getTodaysClasses = () => {
     if (subjects.length === 0) return [];
     const todayIndex = new Date().getDay();
@@ -111,7 +107,6 @@ function StudentDashboard({ userName }) {
             <p>Loading notices...</p>
           ) : recentFeedItems.length > 0 ? (
             <ul className="dashboard-list feed-list">
-              {/* --- KEY PROP FIX --- */}
               {recentFeedItems.map(item => (
                 <li key={item._id}>
                   {renderFeedTag(item)}

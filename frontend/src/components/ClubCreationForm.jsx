@@ -14,7 +14,6 @@ const clubCategories = [
   "Other",
 ];
 
-// This function will be called when the club is successfully created
 function ClubCreationForm({ onClubCreated }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -24,7 +23,7 @@ function ClubCreationForm({ onClubCreated }) {
   ]);
   const [facultyList, setFacultyList] = useState([]); 
   const [selectedCoordinator, setSelectedCoordinator] = useState('');
- // const [logoUrl, setLogoUrl] = useState(''); // Add later if needed
+ // const [logoUrl, setLogoUrl] = useState(''); 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [teamSize, setTeamSize] = useState(1);
@@ -42,7 +41,6 @@ function ClubCreationForm({ onClubCreated }) {
         }
       } catch (err) {
         console.error("Failed to fetch faculty list:", err);
-        // Don't block the form, this is optional
       }
     };
     fetchFaculty();
@@ -110,7 +108,7 @@ function ClubCreationForm({ onClubCreated }) {
        clubData,
         authHeader
       );
-      // Call the function passed from DashboardPage to update state
+      
       onClubCreated(res.data);
     } catch (err) {
       setError(err.response?.data?.msg || "Failed to create club profile.");
@@ -163,7 +161,6 @@ function ClubCreationForm({ onClubCreated }) {
       </p>
       <div className="widget-card club-creation-form">
         <form onSubmit={handleSubmit}>
-          {/* Club Name */}
           <div className="form-group">
             <label htmlFor="clubName">Club Name</label>
             <input
@@ -175,7 +172,7 @@ function ClubCreationForm({ onClubCreated }) {
             />
           </div>
 
-          {/* Description */}
+    
           <div className="form-group">
             <label htmlFor="clubDescription">Description</label>
             <textarea
@@ -243,9 +240,9 @@ function ClubCreationForm({ onClubCreated }) {
                   type="button"
                   className="remove-member-btn"
                   onClick={() => handleRemoveMember(index)}
-                  disabled={teamMembers.length === 1} // Disable remove on last item
+                  disabled={teamMembers.length === 1} 
                 >
-                  &times; {/* A simple 'X' icon */}
+                  &times; 
                 </button>
               </div>
             ))}
@@ -258,7 +255,7 @@ function ClubCreationForm({ onClubCreated }) {
             </button>
           </div>
 
-          {/* Category */}
+    
           <div className="form-group">
             <label htmlFor="clubCategory">Category</label>
             <select
@@ -273,12 +270,6 @@ function ClubCreationForm({ onClubCreated }) {
               ))}
             </select>
           </div>
-
-          {/* Logo URL (Optional for later) */}
-          {/* <div className="form-group">
-            <label htmlFor="clubLogoUrl">Logo URL (Optional)</label>
-            <input type="text" id="clubLogoUrl" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} />
-          </div> */}
 
           {error && <p className="error-message">{error}</p>}
 

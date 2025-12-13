@@ -30,6 +30,7 @@ const eventSchema = new Schema({
     trim: true,
     default: 'Campus',
   },
+  posterUrl: { type: String },
   createdAt: {
     type: Date,
     default: Date.now,

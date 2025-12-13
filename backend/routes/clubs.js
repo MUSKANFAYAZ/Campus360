@@ -5,6 +5,7 @@ const Club = require('../models/Club');
 const User = require('../models/User'); 
 const Announcement = require('../models/Announcement');
 const Event = require('../models/Event');   
+const upload = require('../middleware/upload');
 const mongoose = require('mongoose');
 
 // --- CREATE a New Club ---
@@ -276,17 +277,15 @@ router.get('/:clubId/followercount', auth, async (req, res) => {
 // @route   POST /api/clubs/:clubId/events
 // @desc    Create a new event for a specific club
 // @access  Private (Club Representative of that club)
-router.post('/:clubId/events', auth, async (req, res) => {
+router.post('/:clubId/events', auth,upload.single('poster'), async (req, res) => {
     try {
         const clubId = req.params.clubId;
         const userId = req.user.id; 
-
      
         if (!mongoose.Types.ObjectId.isValid(clubId)) {
             return res.status(400).json({ msg: 'Invalid club ID format.' });
         }
 
-      
         const club = await Club.findOne({ _id: clubId, representative: userId });
         if (!club) {
             return res.status(403).json({ msg: 'Authorization denied: You do not manage this club or club not found.' });
@@ -294,7 +293,10 @@ router.post('/:clubId/events', auth, async (req, res) => {
 
         // Extract event data from request body
         const { title, description, date, location } = req.body;
-
+         let posterUrl = '';
+        if (req.file) {
+            posterUrl = req.file.path; 
+        }
       
         if (!title || !description || !date) {
             return res.status(400).json({ msg: 'Event title, description, and date are required.' });
@@ -311,7 +313,8 @@ router.post('/:clubId/events', auth, async (req, res) => {
             title,
             description,
             date: new Date(date), 
-            location 
+            location,
+            posterUrl: posterUrl
         });
 
        
@@ -337,6 +340,27 @@ router.post('/:clubId/events', auth, async (req, res) => {
     }
 });
 
+// @route   GET /api/clubs/event/:eventId
+// @desc    Get a single event by ID
+router.get('/event/:eventId', auth, async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.eventId)
+            .populate('author', 'name')
+            .populate('club', 'name'); // Populate club name too
+
+        if (!event) {
+            return res.status(404).json({ msg: 'Event not found' });
+        }
+
+        res.json(event);
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Event not found' });
+        }
+        res.status(500).send('Server Error');
+    }
+});
 
 // --- DELETE Club Event ---
 // @route   DELETE /api/clubs/:clubId/events/:eventId

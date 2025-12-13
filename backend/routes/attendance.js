@@ -127,7 +127,6 @@ router.get('/subject/:subjectId', auth, async (req, res) => {
 // @desc    Delete one or more subjects and their attendance records
 // @access  Private
 router.delete('/subjects', auth, async (req, res) => {
-  // Expect an array of subject IDs in the body: { subjectIds: ['id1', 'id2', ...] }
   const { subjectIds } = req.body;
 
   if (!Array.isArray(subjectIds) || subjectIds.length === 0) {

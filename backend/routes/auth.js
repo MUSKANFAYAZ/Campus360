@@ -12,9 +12,6 @@ const crypto = require('crypto');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
-console.log("SENDGRID_API_KEY present:", !!process.env.SENDGRID_API_KEY);
-console.log("SENDER_EMAIL:", !!process.env.SENDER_EMAIL);
-
 // --- SEND REGISTRATION OTP ---
 // @route   POST /api/auth/send-otp
 // @desc    Send a verification OTP to a new usera
@@ -43,7 +40,7 @@ router.post('/send-otp', async (req, res) => {
       user.name = name;
       user.password = hashedPassword;
       user.verificationToken = otp;
-      user.verificationTokenExpires = Date.now() + 600000; // 10 minutes
+      user.verificationTokenExpires = Date.now() + 600000; 
       await user.save();
     } else {
       // Create new user, but as unverified
@@ -52,7 +49,7 @@ router.post('/send-otp', async (req, res) => {
         email,
         password: hashedPassword,
         verificationToken: otp,
-        verificationTokenExpires: Date.now() + 600000, // 10 minutes
+        verificationTokenExpires: Date.now() + 600000, 
         isVerified: false
       });
       await user.save();
@@ -69,9 +66,7 @@ router.post('/send-otp', async (req, res) => {
   await sgMail.send(mailOptions);
   res.status(200).json({ msg: 'Verification OTP has been sent to your email.' });
 } catch (sendErr) {
-  // Log useful SendGrid response if available
   console.error('SENDGRID SEND ERROR:', sendErr.response?.body || sendErr.message || sendErr);
-  // Respond with 502 Bad Gateway (or 500) so frontend shows friendly error
   return res.status(502).json({ msg: 'Failed to send verification email. Please try again later.' });
 }
 
@@ -131,11 +126,9 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
-    // --- ADD VERIFICATION CHECK ---
     if (!user.isVerified) {
       return res.status(401).json({ msg: 'Account not verified. Please check your email.' });
     }
-    // --- END CHECK ---
 
     const payload = { user: { id: user.id, role: user.role } };
 
@@ -214,7 +207,7 @@ router.post('/forgot-password', async (req, res) => {
     const token = crypto.randomBytes(20).toString('hex');
 
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // Expires in 1 hour
+    user.resetPasswordExpires = Date.now() + 3600000; 
     await user.save();
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -223,7 +216,7 @@ router.post('/forgot-password', async (req, res) => {
 
     const mailOptions = {
       to: user.email,
-      from: process.env.SENDER_EMAIL, // Your verified SendGrid email
+      from: process.env.SENDER_EMAIL,
       subject: 'Campus360 - Password Reset',
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
         Please click on the following link, or paste this into your browser to complete the process:\n\n
@@ -250,7 +243,7 @@ router.post('/reset-password/:token', async (req, res) => {
   try {
     const user = await User.findOne({
       resetPasswordToken: req.params.token,
-      resetPasswordExpires: { $gt: Date.now() }, //  greater than
+      resetPasswordExpires: { $gt: Date.now() }, 
     });
 
     if (!user) {
