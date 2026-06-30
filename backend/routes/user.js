@@ -75,25 +75,21 @@ router.get('/faculty', auth, async (req, res) => {
 // @access  Private (Faculty only)
 router.get('/faculty-dashboard', auth, async (req, res) => {
     try {
-        // Ensure the user is a faculty member
         if (req.user.role !== 'faculty') {
             return res.status(403).json({ msg: 'Access denied: Faculty only.' });
         }
 
         const facultyId = req.user.id;
 
-        // Fetch notices authored by this faculty and clubs coordinated by them, concurrently
         const [recentNotices, coordinatedClubs] = await Promise.all([
-            // Get the 5 most recent notices they posted
             Notice.find({ author: facultyId })
                   .sort({ createdAt: -1 })
                   .limit(5)
-                  .select('title createdAt'), // Only select needed fields
+                  .select('title createdAt'), 
 
-            // Get all clubs they coordinate
             Club.find({ facultyCoordinator: facultyId })
                 .sort({ name: 1 })
-                .select('name category') // Only select needed fields
+                .select('name category') 
         ]);
 
         res.json({ recentNotices, coordinatedClubs });

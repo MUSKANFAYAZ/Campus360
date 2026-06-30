@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
-  club: { // Link to the club hosting the event
+  club: { 
     type: Schema.Types.ObjectId,
     ref: 'Club',
     required: true,
   },
-  author: { // Link to the user (club rep) creating the event
+  author: { 
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,

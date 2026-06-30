@@ -79,4 +79,25 @@ Campus360 is a full-stack MERN (MongoDB, Express, React, Node.js) web applicatio
       npm install (to install concurrently)
 
       npm run dev (This will start both servers at the same time)
+
+## Render deployment
+
+This project is now prepared for deployment on Render.
+
+### Backend service
+- Root directory: backend
+- Build command: npm install
+- Start command: npm start
+
+### Required environment variables
+Set these in Render for the backend service:
+- MONGO_URI
+- JWT_SECRET
+- SENDGRID_API_KEY
+- SENDER_EMAIL
+- FRONTEND_URL (for password reset links and CORS)
+- CLIENT_URL (optional fallback for CORS)
+
+### Frontend build
+Render can serve the built frontend from the backend by building the frontend as part of the deployment. The root package includes a build script for that.
   

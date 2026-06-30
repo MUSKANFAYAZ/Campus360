@@ -32,15 +32,6 @@ function EventItem({ event, onDelete }) {
       onClick={handleCardClick} 
       style={{ cursor: 'pointer', position: 'relative' }} 
     >
-      {posterUrl && (
-        <div className="event-poster-wrapper" style={{marginBottom: '1rem', width: '100%'}}>
-            <img 
-                src={posterUrl} 
-                alt={title} 
-                style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '8px', display: 'block' }} 
-            />
-        </div>
-      )}
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <h3 className="notice-title" style={{ marginTop: 0 }}>{title}</h3>

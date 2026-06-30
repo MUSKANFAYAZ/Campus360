@@ -13,7 +13,8 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         //Initialize Socket Connection
-        const newSocket = io('http://localhost:5000');
+        const socketUrl = import.meta.env.VITE_SOCKET_URL || window.location.origin;
+        const newSocket = io(socketUrl, { transports: ['websocket', 'polling'] });
         setSocket(newSocket);
 
         newSocket.on("receive_notification", (data) => {

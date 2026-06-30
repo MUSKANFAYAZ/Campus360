@@ -296,6 +296,9 @@ router.post('/:clubId/events', auth,upload.single('poster'), async (req, res) =>
          let posterUrl = '';
         if (req.file) {
             posterUrl = req.file.path; 
+        console.log("2. Image URL found:", posterUrl);
+        } else {
+            console.log("2. NO IMAGE FILE RECEIVED");
         }
       
         if (!title || !description || !date) {
